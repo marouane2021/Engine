@@ -1,10 +1,8 @@
-﻿using Engine.Infrastructure.Configurations;
-using EngineApi.Infrastructure.Configurations;
-using Microsoft.Extensions.Configuration;
+﻿using EngineApi.Infrastructure.Configurations;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
-using Microsoft.Extensions.Options;
 
 namespace Engine.Infrastructure.MongoRepository
 {
@@ -19,11 +17,6 @@ namespace Engine.Infrastructure.MongoRepository
         protected readonly IOptions<Settings> _options;
 
         /// <summary>
-        /// The client
-        /// </summary>
-        protected readonly MongoClient _mongoClient;
-
-        /// <summary>
         /// The logger
         /// </summary>
         protected readonly ILogger<MongoClientFactory> _logger;
@@ -32,38 +25,6 @@ namespace Engine.Infrastructure.MongoRepository
         /// The database
         /// </summary>
         protected readonly IMongoDatabase _database;
-
-        /// <summary>
-        /// The result limit
-        /// </summary>
-        protected readonly int _resultLimit;
-
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="MongoClientFactory"/> class.
-        ///// </summary>
-        ///// <param name="logger">The logger.</param>
-        ///// <param name="configuration">The configuration.</param>
-        ///// <exception cref="ArgumentNullException">configuration</exception>
-        //public MongoClientFactory(ILogger<MongoClientFactory> logger, IConfiguration configuration)
-        //{
-        //    MongoConfiguration _dbConfig = configuration.GetSection(Constants.MongoDbConfigurationSection)?.Get<MongoConfiguration>();
-
-        //    _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        //    _mongoClient = new MongoClient(_dbConfig?.ConnectionString);
-        //    _database = _mongoClient.GetDatabase(_dbConfig?.Database);
-        //    _resultLimit = configuration.GetValue<int>(Constants.CompetingOfferChangesLimitConfigurationSection);
-        //}
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MongoClientFactory"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException">mongoDbConfiguration</exception>
-        public MongoClientFactory(IOptions<Settings> options)
-        {
-            _options = options ?? throw new ArgumentNullException(nameof(options));
-            var client = new MongoClient(MongoClientSettings.FromConnectionString(options.Value.ConnectionString));
-            _database = client.GetDatabase(_options.Value.Database);
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoClientFactory"/> class.
@@ -76,18 +37,6 @@ namespace Engine.Infrastructure.MongoRepository
             _options = options ?? throw new ArgumentNullException(nameof(options));
             var _client = new MongoClient(MongoClientSettings.FromConnectionString(_options.Value.ConnectionString));
             _database = _client.GetDatabase(_options.Value.Database);
-        }
-
-        /// <summary>
-        /// Gets the MONGO collection.
-        /// </summary>
-        /// <typeparam name="TDocument"></typeparam>
-        /// <returns>
-        /// The collection
-        /// </returns>
-        public IMongoCollection<TDocument> GetMongoCollection<TDocument>(string collectionName) where TDocument : class, new()
-        {
-            return _database.GetCollection<TDocument>(collectionName);
         }
     }
 }

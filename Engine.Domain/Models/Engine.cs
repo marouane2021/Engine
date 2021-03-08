@@ -1,91 +1,66 @@
-﻿using Engine.Domain.Abstractions.Dtos;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Engine.Domain.Models
-{ /// <summary>
-  /// 
-  /// </summary>
+{
+    /// <summary>
+    /// Class Engine
+    /// </summary>
+    [Serializable]
     public class Engine
-
     {
-        public IInputDto inputFields;
-
         [BsonId]
-        public int Id { get; set; }
-
+        public ObjectId Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the scope identifier.
+        /// the code of the engine
         /// </summary>
-        /// <value>
-        /// The scope identifier.
-        /// </value>
+        [BsonElement("Code")]
+        [JsonProperty("Code")]
+        public int Code { get; set; }
+
+        /// <summary>
+        /// the engine is enable o not
+        /// </summary>
+        public bool IsEnable { get; set; }
+
+        /// <summary>
+        /// the name of the engine
+        /// </summary>
+        [BsonElement("Name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the scope identifier.
+        /// The search text for the engine
         /// </summary>
-        /// <value>
-        /// The scope identifier.
-        /// </value>
-        public int code { get; set; }
+        public string SearchText { get; set; }
 
         /// <summary>
-        /// Gets or sets the scope identifier.
+        /// list of the scopes
         /// </summary>
-        /// <value>
-        /// The scope identifier.
-        /// </value>
-        /// 
-        public bool isEnable { get; set; }
+        public IList<Scope> Scopes { get; set; }
 
         /// <summary>
-        /// Gets or sets the scope identifier.
+        /// list of the input fileds
         /// </summary>
-        /// <value>
-        /// The scope identifier.
-        /// </value>
-        /// 
-        public string searchText { get; set; }
+        public IList<InputField> InputFields { get; set; }
         /// <summary>
-        /// Gets the list of all Employees.
+        /// list of the background images
         /// </summary>
-        /// <returns>The list of Employees.</returns>
-        // GET: api/Input
-        public List<Scopes> Scopes { get; set; }
-        public List<Input> InputFields { get; set; }
+        public IList<BackGroundImage> BackGroundImages { get; set; }
 
-        public List<Logo> logo { get; set; }
-        public List<Background> backgroundImages { get; set; }
-        public List<Marketing> marketingText { get; set; }
-       
-        public static Engine Create()
-        {
-            return new Engine();
-        }
+        /// <summary>
+        /// the logo of the engine
+        /// </summary>
+        public Logo Logo { get; set; }
 
-        public Engine WithCode(int scopeId)
-        {
-            code = scopeId;
-            return this;
-        }
-
-
-
-        public Engine FromUpdatedEnginesDto(IEngineDto updatedEngine)
-        {
-            if (updatedEngine != null)
-            {
-                return this;
-            } 
-                                
-                    return null;
-        }
-
+        /// <summary>
+        /// the marketing text for the engine
+        /// </summary>
+        public MarketingText MarketingText { get; set; }
     }
-    }
-
+}

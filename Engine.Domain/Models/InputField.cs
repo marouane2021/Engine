@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Engine.Domain.Models.BIS
+namespace Engine.Domain.Models
 {
     public class InputField
     {

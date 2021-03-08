@@ -1,4 +1,4 @@
-﻿namespace Engine.Domain.Models.BIS
+﻿namespace Engine.Domain.Models
 {
     public class BackGroundImage
     {

@@ -1,6 +1,6 @@
 ﻿using Engine.Domain.Abstractions;
 using Engine.Domain.Handlers;
-using Engine.Infrastructure.Repositories;
+using Engine.Infrastructure.MongoRepository;
 using EngineApi.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Engine.Infrastructure.MongoRepository;
+using Engine.Domain.Abstractions.Dtos.Handlers;
 
 namespace EngineApi.Api.Bootstrap
 {

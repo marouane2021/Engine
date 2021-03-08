@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace Engine.Domain.Abstractions
+namespace Engine.Domain.Abstractions.Dtos.Handlers
 {
     public interface IEngineHandler
     {
-        public Task<int> CreateEngine(Models.BIS.Engine engine);
+        public Task<int> CreateEngine(Models.Engine engine);
     }
 }

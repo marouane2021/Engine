@@ -1,13 +1,14 @@
 ﻿using Engine.Domain.Abstractions;
 using System;
 using System.Threading.Tasks;
+using Engine.Domain.Abstractions.Dtos.Handlers;
 
 namespace Engine.Domain.Handlers
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <seealso cref="Engine.Domain.Abstractions.IEngineHandler" />
+    /// <seealso cref="IEngineHandler" />
     public class EngineHandler : IEngineHandler
     {
         private readonly IEngineRepository _engineRepository;
@@ -21,7 +22,7 @@ namespace Engine.Domain.Handlers
             _engineRepository = engineRepository ?? throw new ArgumentNullException(nameof(engineRepository));
         }
 
-        public async Task<int> CreateEngine(Models.BIS.Engine engine)
+        public async Task<int> CreateEngine(Models.Engine engine)
         {
             if (engine.Code <= 0)
             {
@@ -31,7 +32,7 @@ namespace Engine.Domain.Handlers
             bool exist = await _engineRepository.GetEngineByCode(engine.Code);
 
 
-            return exist ? 0 : await _engineRepository.CreateMoteur(engine);
+            return exist ? 0 : await _engineRepository.CreateEngine(engine);
         }
     }
 }
