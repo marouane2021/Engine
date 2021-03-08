@@ -15,7 +15,7 @@ namespace Engine.Domain.Abstractions.Dtos
         /// The scope identifier.
         /// </value>
         /// 
-      int externalCodeId { get; set; }
+        int externalCodeId { get; set; }
 
         /// <summary>
         /// Gets or sets the scope identifier.
@@ -24,7 +24,7 @@ namespace Engine.Domain.Abstractions.Dtos
         /// The scope identifier.
         /// </value>
         /// 
-         int order { get; set; }
+        int order { get; set; }
         /// <summary>
         /// Gets or sets the scope identifier.
         /// </summary>

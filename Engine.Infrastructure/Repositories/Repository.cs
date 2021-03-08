@@ -44,19 +44,19 @@ namespace Engine.Infrastructure.Repositories
         /// <exception cref="NotImplementedException"></exception>
         /// 
 
-        public async Task<int> CreateMoteur(Domain.Models.Engine moteur)
+        public async Task<int> CreateMoteur(Domain.Models.BIS.Engine moteur)
         {
-            try
-            {
-                await _context.Engines.InsertOneAsync(moteur);
-                return 1;
-            }
-            catch (Exception ex)
-            {
-                // log or manage the exception
-                throw ex;
-                return 0;
-            }
+            //try
+            //{
+            //    await _context.Engines.InsertOneAsync(moteur);
+            //    return 1;
+            //}
+            //catch (Exception ex)
+            //{
+            //    // log or manage the exception
+            //    throw ex;
+            //    return 0;
+            //}
             throw new NotImplementedException();
         }
 

@@ -9,7 +9,7 @@ namespace Engine.Domain.Abstractions
 {
    public interface IEngineRepository 
     {
-        Task<int> CreateMoteur(Models.Engine moteur);
+        Task<int> CreateMoteur(Models.BIS.Engine moteur);
         //Task<IList<IEngineDto>> GetEngineChangesAsync(int code);
 
         ///// <summary>

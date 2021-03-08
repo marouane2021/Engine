@@ -1,15 +1,13 @@
-﻿using Engine.Infrastructure.MongoRepository.Dtos;
+﻿using Engine.Domain.Abstractions;
 using Engine.Domain.Abstractions.Dtos;
-using Engine.Domain.Abstractions;
-using Microsoft.Extensions.Configuration;
+using Engine.Infrastructure.MongoRepository.Dtos;
+using EngineApi.Infrastructure.Configurations;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Engine.Domain.Models;
 
 namespace Engine.Infrastructure.MongoRepository
 {
@@ -18,65 +16,39 @@ namespace Engine.Infrastructure.MongoRepository
         /// <summary>
         /// Gets or sets the collection.
         /// </summary>
-        private IMongoCollection<EngineDto> _collection { get; set; }
+        private readonly IMongoCollection<Domain.Models.BIS.Engine> _collection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EngineMongoDBRepository"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
         /// <param name="configuration">The configuration.</param>
-        public EngineMongoDBRepository(ILogger<MongoClientFactory> logger, IConfiguration configuration, IMongoCollection<EngineDto> collection)
-            : base(logger, configuration)
+        public EngineMongoDBRepository(IOptions<Settings> options, ILogger<MongoClientFactory> logger)
+            : base(options, logger)
         {
-            _collection = _database.GetCollection<EngineDto>(Constants.CompetingOffersCollection);
+            _collection = _database.GetCollection<Domain.Models.BIS.Engine>(options.Value.Collection);
         }
-        //public CompetingOfferChangesMongoDBRepository(ILogger<MongoClientFactory> logger, IConfiguration configuration,
-        //   IMongoCollection<EngineDto> collection)
-        //   : base(logger, configuration)
-        //{
-        //    _collection = collection;
-        //}
 
-        //public IEnumerable<Domain.Models.EngineDto> GetAllMoteurs()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public  Task<int> CreateMoteur(Domain.Models.Engine moteur)
+        public async Task<int> CreateMoteur(Domain.Models.BIS.Engine engine)
         {
-            var engineDto = new EngineDto
+
+            try
             {
-                code = moteur.code,
-                name = moteur.Name,
-                isEnable = moteur.isEnable,
-                searchText = moteur.searchText,
-                scopes = (IScopesDto)moteur.Scopes,
-                Input = (IInputDto)moteur.inputFields,
-                Logo = (ILogoDto)moteur.logo,
-                Background = (IBackgroundDto)moteur.backgroundImages,
-                MarketingText = (IMarketingDto)moteur.marketingText,
+                //_collection.FindAsync()
+                await _collection.InsertOneAsync(engine);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
-
-            };
-            //_collection.FindAsync()
-             _collection.InsertOne(engineDto);
-
-            return Task.FromResult(Convert.ToInt32(engineDto.Id));
+            return 11;
         }
-
-        //public Task<IList<IEngineDto>> GetEngineChangesAsync(int code)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task SetEngineChangesAsync(int code, IEngineDto updatedProductOffer)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public async Task<bool> GetEngineByCode(int code)
         {
-            var result = await _collection.FindAsync(x => x.code == code);
+            var result = await _collection.FindAsync(x => x.Code == code);
             ;
             return result.Any();
         }

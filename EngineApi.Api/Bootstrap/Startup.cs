@@ -1,19 +1,16 @@
 ﻿using Engine.Domain.Abstractions;
 using Engine.Domain.Handlers;
+using Engine.Infrastructure.Repositories;
+using EngineApi.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Data;
-using System.Data.SqlClient;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Engine.Infrastructure.Repositories;
-using Engine.Infrastructure.Configurations;
-using EngineApi.Infrastructure.Configurations;
-using MongoDB.Driver;
+using Engine.Infrastructure.MongoRepository;
 
 namespace EngineApi.Api.Bootstrap
 {
@@ -57,28 +54,12 @@ namespace EngineApi.Api.Bootstrap
             //services.ConfigureCacheServices(_configuration);
 
             services
-                    .Configure<Settings>(_configuration.GetSection("MongoDBConfiguration"));
-            services.AddCors();
+                .Configure<Settings>(_configuration.GetSection("MongoDBConfiguration"));
+
             //Our dependency injections
             services.AddTransient<MetricReporter>();
-            //var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            //Func<IDbConnection> connectionFactory = () => new SqlConnection(connectionString);
-            //services.AddScoped<IHandlerEngine, HandlerEngine>();
-            //services.AddScoped<IHandlerEngine, HandlerEngine>();
             services.AddTransient<IEngineHandler, EngineHandler>();
-            //services.AddScoped<IHandlerEngine, HandlerEngine>();
-            services.AddSingleton<IEngineRepository, Repository>();
-
-            //services.Configure<Settings>(options =>
-            //{
-            //    options.ConnectionString
-            //        = Configuration.GetConnectionString("MongoDBConfiguration");
-
-            //    options.Database
-            //        = Configuration.GetSection("MongoDBConfiguration:Database");
-            //});
-           
-
+            services.AddSingleton<IEngineRepository, EngineMongoDBRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -47,5 +47,22 @@ namespace Engine.Infrastructure.MongoRepository.Dtos
         /// 
         [BsonElement("order")]
         public bool order { get; set; }
+
+        internal static IScopesDto Create()
+        {
+            return new ScopesDto();
+        }
+
+        public IScopesDto WithScopes(ScopesDto offer)
+        {
+            if (offer != null)
+            {
+                name = offer.name;
+                isEnable = offer.isEnable;
+                order = offer.order;
+                scopeId = offer.scopeId;
+            }
+            return this;
+        }
     }
 }

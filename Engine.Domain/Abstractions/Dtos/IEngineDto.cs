@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Engine.Domain.Abstractions.Dtos
 {
-   public  interface IEngineDto
+    public interface IEngineDto
     {
-       string name { get; set; }
+        string name { get; set; }
 
         /// <summary>
         /// Gets or sets the scope identifier.
@@ -32,17 +32,17 @@ namespace Engine.Domain.Abstractions.Dtos
         /// The scope identifier.
         /// </value>
         /// 
-         string searchText { get; set; }
+        string searchText { get; set; }
         /// <summary>
         /// Gets the list of all Employees.
         /// </summary>
         /// <returns>The list of Employees.</returns>
         // GET: api/Input
-       IScopesDto Scopes { get; set; }
-        IInputDto Input { get; set; }
+        IScopesDto Scopes { get; set; }
+        IInputDto InputFields { get; set; }
 
         ILogoDto Logo { get; set; }
-        IBackgroundDto Background { get; set; }
-      IMarketingDto MarketingText { get; set; }
+        IBackgroundDto BackGroundImages { get; set; }
+        IMarketingDto MarketingText { get; set; }
     }
 }

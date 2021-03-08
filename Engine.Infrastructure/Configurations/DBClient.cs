@@ -15,7 +15,7 @@ namespace Engine.Infrastructure.Configurations
         {
             var client = new MongoClient(setting.Value.ConnectionString);
             var database = client.GetDatabase(setting.Value.Database);
-            _engines = database.GetCollection<Domain.Models.Engine>(setting.Value.ENGINE_COLLECTION_NAME);
+           // _engines = database.GetCollection<Domain.Models.Engine>(setting.Value.ENGINE_COLLECTION_NAME);
         }
 
         public IMongoCollection<Domain.Models.Engine> GetEngines() => _engines;

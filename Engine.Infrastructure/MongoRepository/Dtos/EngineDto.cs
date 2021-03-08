@@ -1,13 +1,14 @@
 ﻿using Engine.Domain.Abstractions.Dtos;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace Engine.Infrastructure.MongoRepository.Dtos
 {
     public class EngineDto : IEngineDto
     {
-       [BsonId]
-       public int Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
         /// <summary>
         /// Gets or sets the scope identifier.
         /// </summary>
@@ -45,7 +46,7 @@ namespace Engine.Infrastructure.MongoRepository.Dtos
         /// The scope identifier.
         /// </value>
         /// 
-        [BsonElement("searchText")]
+        [BsonElement("SearchText")]
         public string searchText { get; set; }
         /// <summary>
         /// Gets the list of all Employees.
@@ -53,20 +54,39 @@ namespace Engine.Infrastructure.MongoRepository.Dtos
         /// <returns>The list of Employees.</returns>
         // GET: api/Input
         [BsonElement("Scopes")]
-        public IScopesDto scopes { get; set; }
-        IScopesDto IEngineDto.Scopes { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        [BsonElement("Input")]
-        public IInputDto Input { get; set; }
-        IInputDto IEngineDto.Input { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        [BsonSerializer(typeof(ImpliedImplementationInterfaceSerializer<IScopesDto, ScopesDto>))]
+        public IScopesDto Scopes { get; set; }
+        [BsonElement("InputFields")]
+        public IInputDto InputFields { get; set; }
         [BsonElement("Logo")]
-
         public ILogoDto Logo { get; set; }
-        ILogoDto IEngineDto.Logo { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        [BsonElement("Background")]
-        public IBackgroundDto Background { get; set; }
-        IBackgroundDto IEngineDto.Background { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        [BsonElement("BackgroundImages")]
+        public IBackgroundDto BackGroundImages { get; set; }
         [BsonElement("MarketingText")]
-        public  IMarketingDto MarketingText { get; set; }
-        IMarketingDto IEngineDto.MarketingText { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public IMarketingDto MarketingText { get; set; }
+
+        internal static IEngineDto Create()
+        {
+            return new EngineDto();
+        }
+
+        public IEngineDto WithInfoDto(EngineDto offer)
+        {
+            if (offer != null)
+            {
+                name = offer.name;
+                code = offer.code;
+                searchText = offer.searchText;
+                isEnable = offer.isEnable;
+            }
+            return this;
+        }
+
+        public IEngineDto WithScopes(ScopesDto scope)
+        {
+            var scop = ScopesDto.Create();
+            
+            return this;
+        }
     }
 }

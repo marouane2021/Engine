@@ -1,79 +1,37 @@
 ﻿using Engine.Domain.Abstractions;
-using Engine.Domain.Abstractions.Dtos;
-using Engine.Domain.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Engine.Domain.Handlers
-{  /// <summary>
-   /// 
-   /// </summary>
-   /// <seealso cref="IEngineHandler" />
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Engine.Domain.Abstractions.IEngineHandler" />
     public class EngineHandler : IEngineHandler
     {
         private readonly IEngineRepository _engineRepository;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompetingOfferChangesHandler"/> class.
+        /// Initializes a new instance of the <see cref="EngineHandler"/> class.
         /// </summary>
-        /// <param name="engineRepository">The offer changes repository.</param>
-        /// <exception cref="ArgumentNullException">productOfferAggregator</exception>
+        /// <param name="engineRepository">The engine repository.</param>
         public EngineHandler(IEngineRepository engineRepository)
         {
             _engineRepository = engineRepository ?? throw new ArgumentNullException(nameof(engineRepository));
         }
 
-        /*   public Task<int> CreateMoteur(Models.Engine moteur)
-           {
-               throw new NotImplementedException();
-           }*/
-
-        public async Task<int> CreateMoteur(Models.Engine moteur)
+        public async Task<int> CreateEngine(Models.BIS.Engine engine)
         {
-            if (moteur.code <= 0)
+            if (engine.Code <= 0)
             {
                 return 0;
             }
 
-            bool exist = await _engineRepository.GetEngineByCode(moteur.code);
+            bool exist = await _engineRepository.GetEngineByCode(engine.Code);
 
 
-            return exist ? 0 : await _engineRepository.CreateMoteur(moteur);
+            return exist ? 0 : await _engineRepository.CreateMoteur(engine);
         }
-
-        ///// <summary>
-        ///// Gets the competing offer changes.
-        ///// </summary>
-        ///// <param name="code">The seller identifier.</param>
-        ///// <returns></returns>
-        //public async Task<IEnumerable<Models.Engine>> GetEngineChangesAsync(int code)
-        //{
-        //    IList<IEngineDto> engine = await _engineRepository.GetEngineChangesAsync(code).ConfigureAwait(false);
-
-        //    if (engine == null || !engine.Any())
-        //    {
-        //        return null;
-        //    }
-
-        //    IList<Models.Engine> moteur = new List<Models.Engine>();
-        //    foreach (IEngineDto engineDto in engine)
-        //    {
-        //        await _engineRepository.SetEngineChangesAsync(code, engineDto).ConfigureAwait(false);
-        //        moteur.Add(
-        //            Models.Engine.Create()
-        //                                .FromUpdatedEnginesDto(engineDto));
-
-        //    }
-
-        //    return moteur;
-        //}
-
-        //Task<IEnumerable<HandlerEngine>> IHandlerEngine.GetEngineChangesAsync(int code)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
