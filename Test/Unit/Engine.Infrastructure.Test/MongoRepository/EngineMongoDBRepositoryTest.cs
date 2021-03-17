@@ -1,25 +1,121 @@
-﻿using Engine.Infrastructure.MongoRepository;
-using Engine.Infrastructure.MongoRepository.Dtos;
+﻿using Engine.Domain.Models;
+using Engine.Infrastructure.MongoRepository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using Xunit;
+using EngineApi.Infrastructure.Configurations;
+using System.Threading;
+using System.IO;
+//using static Dapper.SqlMapper;
 
 namespace Engine.Infrastructure.Test.MongoRepository
 {
-    class EngineMongoDBRepositoryTest
+    public class EngineMongoDBRepositoryTest
     {
-        private readonly IConfigurationRoot _configuration;
+        private readonly IOptions<Settings> _options;
         private readonly Mock<ILogger<MongoClientFactory>> _mockLogger;
-        private readonly EngineMongoDBRepository engineMongoDBRepository;
-        private EngineMongoDBRepository GetMongoRepository(ILogger<MongoClientFactory> logger, IConfiguration configuration,
-            IMongoCollection<EngineDto> collection)
+        private readonly EngineMongoDBRepository _engineMongoDBRepository;
+        private Mock<IMongoCollection<Engine.Domain.Models.Engine>> _mockCollection;
+        private EngineMongoDBRepository GetMongoRepository(ILogger<MongoClientFactory> logger, IOptions<Settings> options,
+            IMongoCollection<Engine.Domain.Models.Engine> collection)
         {
-            return new EngineMongoDBRepository(logger, configuration, collection);
+            return new EngineMongoDBRepository(logger, options, collection);
         }
-    }
+        public EngineMongoDBRepositoryTest()
+        {
+            Domain.Models.Engine engine = new Domain.Models.Engine
+            {
+                Id = new ObjectId("6048d0b57757e1f98eb48273"),
+                Code = 2,
+                Name = "beaute",
+                IsEnable = true,
+                SearchText = "hello",
+                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
 
+            };
+
+            var fakeMongoCollection = new FakeMongoCollection<Engine.Domain.Models.Engine>(new List<Engine.Domain.Models.Engine> { engine }, 1L);
+            _options = Options.Create(new ConfigurationBuilder()
+                                .AddJsonFile("C:/Users/marouane.kaoukaou/source/repos/Engine/src/EngineApi.Api/appsettings.json", false)
+                                .Build()
+                                .GetSection("MongoDBConfiguration")
+                                .Get<Settings>());
+
+            _mockLogger = new Mock<ILogger<MongoClientFactory>>();
+            _engineMongoDBRepository = GetMongoRepository(_mockLogger.Object, _options, fakeMongoCollection);
+        }
+    
+        [Fact]
+        public async void CreateEngine_ReturnId()
+        {
+            Domain.Models.Engine engine = new Domain.Models.Engine
+            {
+                Id = new ObjectId("6048c5c8fa42e6ae9581a942"),
+                Code = 3,
+                Name = "beaute",
+                IsEnable = true,
+                SearchText = "hello",
+                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+
+            };
+
+            //_mockCollection = new Mock<IMongoCollection<Engine.Domain.Models.Engine>>();
+
+            //Arrange
+            //_mockCollection.Setup(op => op.InsertOneAsync(engine, null, default(CancellationToken))).Returns(Task.FromResult(new ObjectId("6048c5c8fa42e6ae9581a942")));
+
+            //Act
+            var result = await _engineMongoDBRepository.CreateEngine(engine);
+            //Assert 
+
+            //Verify if InsertOneAsync is called once
+            //_mockCollection.Verify(c => c.InsertOneAsync(engine, null, default(CancellationToken)), Times.Once);
+
+            //_mockLogger.Setup(x => x.CreateEngine(engine)).Returns(Task.FromResult(new Result { Id = new ObjectId("6048d0b57757e1f98eb48273") }));
+
+            //var result = await _engineMongoDBRepository.InsertOneAsync(engine);
+
+            Assert.Equal(new ObjectId("6048c5c8fa42e6ae9581a942"), result);
+        }
+        [Fact]
+        public async void GetEngineByCode_TestEngineExistOrNot()
+        {
+            //Domain.Models.Engine engine = new Domain.Models.Engine
+            //{
+            //    Id = new ObjectId("6048d0b57757e1f98eb48273"),
+            //    Code = 2,
+            //    Name = "beaute",
+            //    IsEnable = true,
+            //    SearchText = "hello",
+            //    Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
+            //    InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
+            //    BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
+            //    Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
+            //    MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+
+            //};
+            var resultTrue = await _engineMongoDBRepository.GetEngineByCode(2);
+            var resultFalse = await _engineMongoDBRepository.GetEngineByCode(4);
+
+            Assert.True(resultTrue);
+            Assert.False(resultFalse);
+        }
+
+
+    }
 }

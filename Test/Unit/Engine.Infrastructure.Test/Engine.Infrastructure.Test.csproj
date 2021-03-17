@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Engine.Infrastructure\Engine.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Engine.Infrastructure\Engine.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
