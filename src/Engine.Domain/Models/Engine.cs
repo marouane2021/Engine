@@ -13,6 +13,7 @@ namespace Engine.Domain.Models
     public class Engine
     {
         [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
 
         /// <summary>
@@ -22,12 +23,7 @@ namespace Engine.Domain.Models
         [JsonProperty("Code")]
         public int Code { get; set; }
 
-        /// <summary>
-        /// the engine is enable o not
-        /// </summary>
-        public bool IsEnable { get; set; }
-
-        /// <summary>
+        // <summary>
         /// the name of the engine
         /// </summary>
         [BsonElement("Name")]
@@ -35,9 +31,23 @@ namespace Engine.Domain.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// the engine is enable o not
+        /// </summary>
+        public bool IsEnable { get; set; }
+
+        
+        /// <summary>
         /// The search text for the engine
         /// </summary>
         public string SearchText { get; set; }
+        /// <summary>
+        /// Gets or sets the last integration time.
+        /// </summary>
+        DateTime LastUpdateDate { get; set; }
+        /// <summary>
+        /// Gets or sets the last change date.
+        /// </summary>
+        public DateTime LastChangeDate { get; set; }
 
         /// <summary>
         /// list of the scopes
@@ -49,6 +59,10 @@ namespace Engine.Domain.Models
         /// </summary>
         public IList<InputField> InputFields { get; set; }
         /// <summary>
+        /// list of the Parameters
+        /// </summary>
+        //public IList<Parameter> Parameters { get; set; }
+        /// <summary>
         /// list of the background images
         /// </summary>
         public IList<BackGroundImage> BackGroundImages { get; set; }
@@ -56,11 +70,40 @@ namespace Engine.Domain.Models
         /// <summary>
         /// the logo of the engine
         /// </summary>
-        public Logo Logo { get; set; }
+        public IList<Logo> Logo { get; set; }
 
         /// <summary>
         /// the marketing text for the engine
         /// </summary>
-        public MarketingText MarketingText { get; set; }
+        public IList<MarketingText> MarketingText { get; set; }
+        public static Engine Create()
+        {
+            return new Engine();
+        }
+        public Engine WithName(string name)
+        {
+          Name = name;
+            return this;
+        }
+        public Engine WithCode(int code)
+        {
+            Code = code;
+            return this;
+        }
+        public Engine FromUpdatedEngine(Engine engine)
+        {
+            if (engine == null)
+            {
+                return null;
+            }
+
+            LastChangeDate = engine.LastUpdateDate;
+            engine = Engine.Create()
+                           .WithCode(engine.Code)
+                           .WithName(engine.Name);
+                           
+
+            return this;
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Engine.Domain.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Engine.Domain.Models
 {
     public class Parameter
     {
