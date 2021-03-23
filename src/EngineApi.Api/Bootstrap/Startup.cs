@@ -60,6 +60,8 @@ namespace EngineApi.Api.Bootstrap
             services.AddTransient<MetricReporter>();
             services.AddTransient<IEngineHandler, EngineHandler>();
             services.AddSingleton<IEngineRepository, EngineMongoDBRepository>();
+            //Enable CORS
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +89,12 @@ namespace EngineApi.Api.Bootstrap
                {
                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                });
+
+            app.UseCors(options =>
+            options.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+
         }
     }
 }
