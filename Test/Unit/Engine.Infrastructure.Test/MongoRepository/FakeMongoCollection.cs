@@ -35,7 +35,6 @@ namespace Engine.Infrastructure.Test.MongoRepository
             return Task.FromResult(GetCursor<TProjection>(newList.Cast<T>().ToList()).Object);
         }
 
-
         public Task<UpdateResult> UpdateOneAsync(IClientSessionHandle session, FilterDefinition<T> filter, UpdateDefinition<T> update, UpdateOptions options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.FromResult(Getupdate().Object);

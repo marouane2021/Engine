@@ -57,11 +57,7 @@ namespace Engine.Infrastructure.MongoRepository
             }
         }
 
-        /*public Task<int> CreateScopes(Scope scope)
-        {
-            throw new NotImplementedException();
-        }*/
-
+       
         public async Task<bool> GetEngineByCode(int code)
         {
             var result = await _collection.FindAsync(x => x.Code == code);
@@ -87,12 +83,36 @@ namespace Engine.Infrastructure.MongoRepository
 
         public async Task<List<Domain.Models.Engine>> GetEngines()
         {
-            //return await Task.FromResult(new List<Domain.Models.Engine>{
+            
             return await _collection.Find(_ => true).ToListAsync();
 
 
 
 
     }
+        public async Task<bool> UpdateEngine(int code, Domain.Models.Engine engine)
+        {
+            if (GetEngineById(code) == null)
+            {
+                return false;
+            }
+            //var filter = Builders<Domain.Models.Engine>.Filter.Eq(s => s.Code, code);
+            var update = Builders<Domain.Models.Engine>.Update.Set(s => s.Name, engine.Name);
+            var result = await _collection.UpdateOneAsync(model => model.Code == code, update);
+
+            return true;
+
+        }
+        public async Task<bool> DeleteEngine(int code)
+
+        {
+            if (GetEngineById(code) == null)
+            {
+                return false;
+            }
+            await _collection.DeleteOneAsync(a => a.Code == code);
+            return true;
+        }
+
+        }
     }
-}

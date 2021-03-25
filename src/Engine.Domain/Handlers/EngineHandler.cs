@@ -31,7 +31,7 @@ namespace Engine.Domain.Handlers
             var x = ValidateFields(engine, errorList);
             errorList.AddRange(x);
 
-            if(errorList.Count != 0)
+            if (errorList.Count != 0)
             {
                 result.Errors = errorList;
                 return result;
@@ -78,19 +78,32 @@ namespace Engine.Domain.Handlers
         }
         public async Task<Engine.Domain.Models.Engine> GetEngineById(int code)
         {
-            var engines = await _engineRepository.GetEngineById(code).ConfigureAwait(false);           
+            var engines = await _engineRepository.GetEngineById(code).ConfigureAwait(false);
 
-            if (engines == null)            
+            if (engines == null)
                 return null;
-            
+
             return engines;
         }
 
-        
+
 
         public async Task<List<Models.Engine>> GetEngines()
         {
             return await _engineRepository.GetEngines();
-       }
+        }
+        public async Task<bool> UpdateEngine(int code, Models.Engine engine)
+        {
+            if (engine == null)
+            {
+                return false;
+            }
+
+            return await _engineRepository.UpdateEngine(code, engine);
+        }
+        public async Task<bool> DeleteEngine(int code)
+        {
+            return await _engineRepository.DeleteEngine(code);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Engine.Domain.Abstractions.Dtos.Handlers;
 using Engine.Domain.Handlers;
 using EngineApi.Api.Bootstrap;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,7 @@ namespace EngineApi.Api.Controllers.Engines
     [Produces("application/json")]
     [ApiController]
     [Route("Moteur")]
+
     public class EnginesController : ControllerBase
     {
         private readonly IEngineHandler _handlerEngine;
@@ -34,10 +36,10 @@ namespace EngineApi.Api.Controllers.Engines
         /// Initializes a new instance of the <see cref="EnginesController"/> class.
         /// </summary>
         /// <param name="handlerEngine">The handler engine.</param>
-        public EnginesController(IEngineHandler handlerEngine, MetricReporter metrics)
+        public EnginesController(IEngineHandler handlerEngine)
         {
             _handlerEngine = handlerEngine ?? throw new ArgumentNullException(nameof(handlerEngine));
-            _metrics = metrics;
+            
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace EngineApi.Api.Controllers.Engines
         /// <param name="engine">The engine.</param>
         /// <returns></returns>
         [HttpPost("CreateEngine")]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [SwaggerResponse(StatusCodes.Status200OK, description: "WELL DONE")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> CreateEngineAsync([FromBody] Engine.Domain.Models.Engine engine)
         {
@@ -56,7 +58,7 @@ namespace EngineApi.Api.Controllers.Engines
                
                 
                     if (res.Errors != null && res.Errors.Count != 0)
-                        return StatusCode(StatusCodes.Status404NotFound, res.Errors);
+                        return StatusCode(StatusCodes.Status200OK, res.Errors);
                    
                 
                 return StatusCode(StatusCodes.Status201Created, res.Id);
@@ -69,7 +71,7 @@ namespace EngineApi.Api.Controllers.Engines
         [HttpGet("GetEngineByCode/{code}")]
         [SwaggerResponse(StatusCodes.Status200OK, description: "WELL DONE")]
         [SwaggerResponse(StatusCodes.Status404NotFound, description: "Aucune donnée")]
-        public async Task<IActionResult> GetEngineById([FromRoute] int code)
+        public async Task<ActionResult> GetEngineById([FromRoute] int code)
         {
             var result = await _handlerEngine.GetEngineById(code);
 
@@ -95,9 +97,38 @@ namespace EngineApi.Api.Controllers.Engines
 
             _metrics.RegisterRequest();
 
-            //return Content(JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings {​​​​​ContractResolver = new CamelCasePropertyNamesContractResolver() }​​​​​), "application/json");
+           
             return Content(Newtonsoft.Json.JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings()), "application/json");
         }
+        [HttpPut("UpdateEngine/{code}")]
+        [SwaggerResponse(StatusCodes.Status200OK, description: "WELL DONE")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, description: "Aucune donnée")]
+        public async Task<IActionResult> UpdateEngineAsync([FromRoute] int code, [FromBody] Engine.Domain.Models.Engine engine)
+        {
+            var result = await _handlerEngine.UpdateEngine(code, engine);
+
+            if (!result)
+            {
+                return NotFound($"No engine found with this code : {code}");
+            }
+
+            return Ok($"Engine Updated");
+        }
+        [HttpDelete("DeleteEngine/{code}")]
+        [SwaggerResponse(StatusCodes.Status200OK, description: "WELL DONE")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, description: "Aucune donnée")]
+        public async Task<IActionResult> DeleteEngineAsync([FromRoute] int code)
+        {
+            var result = await _handlerEngine.DeleteEngine(code);
+
+            if (!result)
+            {
+                return NotFound($"No engine found with this code : {code}");
+            }
+
+            return Ok($"Engine Deleted");
+        }
+
 
 
     }
