@@ -94,27 +94,77 @@ namespace Engine.Infrastructure.Test.MongoRepository
         }
         [Fact]
         public async void GetEngineByCode_TestEngineExistOrNot()
-        {
-            //Domain.Models.Engine engine = new Domain.Models.Engine
-            //{
-            //    Id = new ObjectId("6048d0b57757e1f98eb48273"),
-            //    Code = 2,
-            //    Name = "beaute",
-            //    IsEnable = true,
-            //    SearchText = "hello",
-            //    Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
-            //    InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
-            //    BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
-            //    Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
-            //    MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
-
-            //};
+        {            
             var resultTrue = await _engineMongoDBRepository.GetEngineByCode(2);
             var resultFalse = await _engineMongoDBRepository.GetEngineByCode(4);
 
             Assert.True(resultTrue);
             Assert.False(resultFalse);
         }
+        [Fact]
+        public async void GetEngineById_withAvailableCode_ShouldReturnEngineInfo()
+        {
+            var result = await _engineMongoDBRepository.GetEngineById(1);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Code);
+            Assert.Equal("Beaute", result.Name);
+        }
+        [Fact]
+        public async void GetEngines_ShouldReturnEngineList()
+        {
+            // Arrange
+            
+            // Act
+            var result = await _engineMongoDBRepository.GetEngines();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<List<Engine.Domain.Models.Engine>>(result);
+            Assert.Equal(2, result.Count);
+        }
+        [Fact]
+        public async void DeleteEngine_WithAvailableEngineId_ShouldBeDeleted()
+        {
+            // Arrange
+
+           
+
+            // Act
+            var result = await _engineMongoDBRepository.DeleteEngine(10);
+
+            // Assert
+
+            Assert.True(result);
+        }
+        [Fact]
+        public async void UpdateEngine_WithCodeAndInfoToUpdate_ShouldBeUpdated()
+        {
+            // Arrange
+            Domain.Models.Engine engine = new Domain.Models.Engine
+            {
+                Id = new ObjectId("6048c5c8fa42e6ae9581a942"),
+                Code = 10,
+                Name = "beaute",
+                IsEnable = true,
+                SearchText = "hello",
+                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+
+            };
+
+            
+            // Act
+            var result = await _engineMongoDBRepository.UpdateEngine(10, engine);
+
+            // Assert
+            Assert.True(result);
+        }
+
 
 
     }

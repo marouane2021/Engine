@@ -10,6 +10,7 @@ namespace Engine.Domain.Abstractions.Dtos.Handlers
         //public Task<bool> CheckIsEngineActive(int code);
         public Task<Models.Engine> GetEngineById(int code);
       public  Task<List<Models.Engine>> GetEngines();
-
+       public Task<bool> UpdateEngine(int code, Models.Engine engine);
+       public  Task<bool> DeleteEngine(int code);
     }
 }

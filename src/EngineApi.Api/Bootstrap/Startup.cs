@@ -11,6 +11,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Engine.Domain.Abstractions.Dtos.Handlers;
+using Microsoft.Net.Http.Headers;
 
 namespace EngineApi.Api.Bootstrap
 {
@@ -60,21 +61,37 @@ namespace EngineApi.Api.Bootstrap
             services.AddTransient<MetricReporter>();
             services.AddTransient<IEngineHandler, EngineHandler>();
             services.AddSingleton<IEngineRepository, EngineMongoDBRepository>();
-            //Enable CORS
-            services.AddCors();
+            //Cors
+            services.AddCors(options =>
+            {
+
+                options.AddPolicy(name: "react",
+                  builder =>
+                  {
+                      builder.AllowAnyOrigin()
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+                  });
+            });
+
+
         }
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("react");
 
             app.UseAuthorization();
 
@@ -90,10 +107,18 @@ namespace EngineApi.Api.Bootstrap
                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                });
 
-            app.UseCors(options =>
-            options.WithOrigins("http://localhost:3000")
-            .AllowAnyHeader()
-            .AllowAnyMethod());
+
+            app.UseHttpsRedirection();
+
+           
+
+            app.UseAuthentication();
+
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
+
 
         }
     }
