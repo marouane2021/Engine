@@ -6,11 +6,11 @@ namespace Engine.Domain.Abstractions.Dtos.Handlers
 {
     public interface IEngineHandler
     {
-        public Task<Result> CreateEngine(Models.Engine engine);
+        public Task<Result> CreateEngine(MyEngine engine);
         //public Task<bool> CheckIsEngineActive(int code);
-        public Task<Models.Engine> GetEngineById(int code);
-      public  Task<List<Models.Engine>> GetEngines();
-       public Task<bool> UpdateEngine(int code, Models.Engine engine);
+        public Task<MyEngine> GetEngineById(int code);
+      public  Task<List<MyEngine>> GetEngines();
+       public Task<bool> UpdateEngine(int code, MyEngine engine);
        public  Task<bool> DeleteEngine(int code);
     }
 }

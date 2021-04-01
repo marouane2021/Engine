@@ -1,5 +1,6 @@
 ﻿using Engine.Domain.Abstractions.Dtos.Handlers;
 using Engine.Domain.Handlers;
+using Engine.Domain.Models;
 using EngineApi.Api.Bootstrap;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +51,7 @@ namespace EngineApi.Api.Controllers.Engines
         [HttpPost("CreateEngine")]
         [SwaggerResponse(StatusCodes.Status200OK, description: "WELL DONE")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> CreateEngineAsync([FromBody] Engine.Domain.Models.Engine engine)
+        public async Task<IActionResult> CreateEngineAsync([FromBody] MyEngine engine)
         {
             try
             {
@@ -95,15 +96,16 @@ namespace EngineApi.Api.Controllers.Engines
                 return NotFound();
             }
 
-            _metrics.RegisterRequest();
+            //_metrics.RegisterRequest();
 
-           
-            return Content(Newtonsoft.Json.JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings()), "application/json");
+            return Ok(result);
+
+            //erturn Content(Newtonsoft.Json.JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings()), "application/json");
         }
         [HttpPut("UpdateEngine/{code}")]
         [SwaggerResponse(StatusCodes.Status200OK, description: "WELL DONE")]
         [SwaggerResponse(StatusCodes.Status404NotFound, description: "Aucune donnée")]
-        public async Task<IActionResult> UpdateEngineAsync([FromRoute] int code, [FromBody] Engine.Domain.Models.Engine engine)
+        public async Task<IActionResult> UpdateEngineAsync([FromRoute] int code, [FromBody] MyEngine engine)
         {
             var result = await _handlerEngine.UpdateEngine(code, engine);
 

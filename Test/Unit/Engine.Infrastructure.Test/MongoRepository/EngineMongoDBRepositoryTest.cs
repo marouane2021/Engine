@@ -22,15 +22,15 @@ namespace Engine.Infrastructure.Test.MongoRepository
         private readonly IOptions<Settings> _options;
         private readonly Mock<ILogger<MongoClientFactory>> _mockLogger;
         private readonly EngineMongoDBRepository _engineMongoDBRepository;
-        private Mock<IMongoCollection<Engine.Domain.Models.Engine>> _mockCollection;
+       // private Mock<IMongoCollection<Engine.Domain.Models.Engine>> _mockCollection;
         private EngineMongoDBRepository GetMongoRepository(ILogger<MongoClientFactory> logger, IOptions<Settings> options,
-            IMongoCollection<Engine.Domain.Models.Engine> collection)
+            IMongoCollection<MyEngine> collection)
         {
             return new EngineMongoDBRepository(logger, options, collection);
         }
         public EngineMongoDBRepositoryTest()
         {
-            Domain.Models.Engine engine = new Domain.Models.Engine
+            var engine = new MyEngine
             {
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 2,
@@ -45,7 +45,7 @@ namespace Engine.Infrastructure.Test.MongoRepository
 
             };
 
-            var fakeMongoCollection = new FakeMongoCollection<Engine.Domain.Models.Engine>(new List<Engine.Domain.Models.Engine> { engine }, 1L);
+            var fakeMongoCollection = new FakeMongoCollection<MyEngine>(new List<MyEngine> { engine }, 1L);
             _options = Options.Create(new ConfigurationBuilder()
                                 .AddJsonFile("C:/Users/marouane.kaoukaou/source/repos/Engine/src/EngineApi.Api/appsettings.json", false)
                                 .Build()
@@ -59,7 +59,7 @@ namespace Engine.Infrastructure.Test.MongoRepository
         [Fact]
         public async void CreateEngine_ReturnId()
         {
-            Domain.Models.Engine engine = new Domain.Models.Engine
+            var engine = new MyEngine
             {
                 Id = new ObjectId("6048c5c8fa42e6ae9581a942"),
                 Code = 3,
@@ -121,7 +121,7 @@ namespace Engine.Infrastructure.Test.MongoRepository
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<List<Engine.Domain.Models.Engine>>(result);
+            Assert.IsType<List<MyEngine>>(result);
             Assert.Equal(2, result.Count);
         }
         [Fact]
@@ -142,7 +142,7 @@ namespace Engine.Infrastructure.Test.MongoRepository
         public async void UpdateEngine_WithCodeAndInfoToUpdate_ShouldBeUpdated()
         {
             // Arrange
-            Domain.Models.Engine engine = new Domain.Models.Engine
+            var engine = new MyEngine
             {
                 Id = new ObjectId("6048c5c8fa42e6ae9581a942"),
                 Code = 10,

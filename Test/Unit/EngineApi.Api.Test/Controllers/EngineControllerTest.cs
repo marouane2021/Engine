@@ -32,7 +32,7 @@ namespace EngineApi.Api.Test
         [Fact]
         public void CreateEngine_WithId_ThrowsExceptionAsync()
         {
-            Engine.Domain.Models.Engine engine = GetEngine();
+            MyEngine engine = GetEngine();
 
             _mockEngineHandler.Setup(x => x.CreateEngine(engine)).Throws(new Exception { });
 
@@ -42,7 +42,7 @@ namespace EngineApi.Api.Test
         [Fact]
         public async void CreateEngine_WithId_ShouldReturnErrors()
         {
-            Engine.Domain.Models.Engine engine = GetEngine();
+            MyEngine engine = GetEngine();
             _mockEngineHandler.Setup(x => x.CreateEngine(engine)).Returns(Task.FromResult(new Result { Id = default(ObjectId), Errors = new List<string> { "Code not accepted, try again " } }));
 
             var result = await _engineController.CreateEngineAsync(engine);
@@ -53,9 +53,9 @@ namespace EngineApi.Api.Test
 
         }
 
-        private static Engine.Domain.Models.Engine GetEngine()
+        private static MyEngine GetEngine()
         {
-            return new Engine.Domain.Models.Engine
+            return new MyEngine
             {
                 Id = default(ObjectId),
                 Code = 0,
@@ -74,7 +74,7 @@ namespace EngineApi.Api.Test
         [Fact]
         public async void CreateEngine_WithId_ShouldReturnId()
         {
-            Engine.Domain.Models.Engine engine = new Engine.Domain.Models.Engine
+            MyEngine engine = new MyEngine
             {
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 2,
@@ -100,7 +100,7 @@ namespace EngineApi.Api.Test
         public async void GetEngineById_GivenAvailableCode_ShouldReturnOKAsync()
         {
             //Arrange
-            var engine= new Engine.Domain.Models.Engine
+            var engine= new MyEngine
             {
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 1,
@@ -120,29 +120,29 @@ namespace EngineApi.Api.Test
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(200, (result.Result as ObjectResult).StatusCode);
+            Assert.Equal(200, (result as ObjectResult).StatusCode);
         }
 
         [Fact]
         public async Task GetEngineById_GivenUnvailableCode_ShouldReturnNotFoundAsync()
         {
             //Arrange
-            _mockEngineHandler.Setup(x => x.GetEngineById(It.IsAny<int>())).ReturnsAsync((Engine.Domain.Models.Engine)null);
+            _mockEngineHandler.Setup(x => x.GetEngineById(It.IsAny<int>())).ReturnsAsync((MyEngine)null);
 
             //Act
             var result = await _engineController.GetEngineById(1);
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(404, (result.Result as ObjectResult).StatusCode);          
+            Assert.Equal(404, (result as ObjectResult).StatusCode);          
         }
         [Fact]
         public async void GetEngines_Should_Return_Ok()
         {
             // Arrange
-            List<Engine.Domain.Models.Engine> engine = new List<Engine.Domain.Models.Engine>
+            List<MyEngine> engine = new List<MyEngine>
             {
-                new Engine.Domain.Models.Engine{
+                new  MyEngine{
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 1,
                 Name = "beaute",
@@ -154,7 +154,7 @@ namespace EngineApi.Api.Test
                 Logo = new List<Engine.Domain.Models.Logo> { new Engine.Domain.Models.Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
                 MarketingText = new List<Engine.Domain.Models.MarketingText> { new Engine.Domain.Models.MarketingText { IsEnable = true, Text = "marketing" } }
             },
-             new Engine.Domain.Models.Engine
+             new  MyEngine
              {
                  Id = new ObjectId("6048d0b57757e1f98eb48253"),
                  Code = 12,
@@ -201,7 +201,7 @@ namespace EngineApi.Api.Test
         public async Task DeleteEngineeAsync_GivenAvailableCode_ShouldReturnOk()
 
         {
-            var engine = new Engine.Domain.Models.Engine
+            var engine = new MyEngine
             {
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 10,
@@ -241,8 +241,8 @@ namespace EngineApi.Api.Test
         public async Task UpdateEngineAsync_GivenEngineWithCodeAndNameString_ShouldReturnNotFoundAsync()
         {
             //Arrange
-            var engine = new Engine.Domain.Models.Engine { Name = "string" };
-            _mockEngineHandler.Setup(x => x.UpdateEngine(It.IsAny<int>(), It.IsAny<Engine.Domain.Models.Engine>())).ReturnsAsync(false);
+            var engine = new MyEngine { Name = "string" };
+            _mockEngineHandler.Setup(x => x.UpdateEngine(It.IsAny<int>(), It.IsAny<MyEngine>())).ReturnsAsync(false);
 
             //Act
             var reslt = await _engineController.UpdateEngineAsync(5,engine);
