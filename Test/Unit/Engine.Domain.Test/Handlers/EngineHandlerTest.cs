@@ -24,7 +24,7 @@ namespace Engine.Domain.Test.Handlers
         [Fact]
         public async Task VerifyIfEngineExist()
         {
-            var engine = new Engine.Domain.Models.Engine
+            var engine = new MyEngine
             {
 
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
@@ -80,7 +80,7 @@ namespace Engine.Domain.Test.Handlers
         public async Task GetEngineById_GivenAvailablecode_ShouldReturnEngineAsync()
         {
             //Arrange
-            var engine = new Engine.Domain.Models.Engine
+            var engine = new MyEngine
             {
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 10,
@@ -107,9 +107,9 @@ namespace Engine.Domain.Test.Handlers
         public async void GetEngines_ShouldReturnEngineList()
         {
             // Arrange
-            List< Models.Engine> engine = new List<Engine.Domain.Models.Engine>
+            List<MyEngine> engine = new List<MyEngine>
             {
-                new Engine.Domain.Models.Engine{
+                new MyEngine{
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 1,
                 Name = "beaute",
@@ -121,7 +121,7 @@ namespace Engine.Domain.Test.Handlers
                 Logo = new List<Engine.Domain.Models.Logo> { new Engine.Domain.Models.Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
                 MarketingText = new List<Engine.Domain.Models.MarketingText> { new Engine.Domain.Models.MarketingText { IsEnable = true, Text = "marketing" } }
             },
-             new Engine.Domain.Models.Engine
+             new MyEngine
              {
                  Id = new ObjectId("6048d0b57757e1f98eb48253"),
                  Code = 12,
@@ -152,7 +152,7 @@ namespace Engine.Domain.Test.Handlers
         public async Task DeleteEngine_GivenEngineeIdToDelete_ShouldReturnTrueForisDeletedAsync()
         {
             //Arrange
-            var engine = new Engine.Domain.Models.Engine
+            var engine = new MyEngine
             {
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 10,
@@ -178,7 +178,7 @@ namespace Engine.Domain.Test.Handlers
         public async Task UpdateEngine_GivenEngineWithCodeAndNameString_ShouldReturnFalseAsync()
         {
             //Arrange
-            var engine = new Models.Engine { Name = "string" };
+            var engine = new MyEngine { Name = "string" };
             // _mockHandlerTest.Setup(x => x.UpdateScope(It.IsAny<int>(), It.IsAny<ScopeToUpdate>())).ReturnsAsync(false);
             //Act
             var reslt = await _engineHandler.UpdateEngine(5, engine);
@@ -191,8 +191,8 @@ namespace Engine.Domain.Test.Handlers
         public async Task UpdateEngine_GivenEngineToUpdate_ShouldReturnTrueAsync()
         {
             //Arrange
-            var engine = new Models.Engine { Name = "Beaute" };
-            _mockRepository.Setup(x => x.UpdateEngine(It.IsAny<int>(), It.IsAny<Models.Engine>())).ReturnsAsync(true);
+            var engine = new MyEngine { Name = "Beaute" };
+            _mockRepository.Setup(x => x.UpdateEngine(It.IsAny<int>(), It.IsAny<MyEngine>())).ReturnsAsync(true);
             //Act
             var reslt = await _engineHandler.UpdateEngine(10, engine);
 

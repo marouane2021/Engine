@@ -29,7 +29,7 @@ namespace EngineApi.Api.Test.Controllers
         [Fact]
         public void CreateEngine_WithId_ThrowsExceptionAsync()
         {
-            Engine.Domain.Models.Engine engine = GetEngine();
+            MyEngine engine = GetEngine();
 
             _mockEngineHandler.Setup(x => x.CreateEngine(engine)).Throws(new Exception { });
 
@@ -39,7 +39,7 @@ namespace EngineApi.Api.Test.Controllers
         [Fact]
         public async void CreateEngine_WithId_ShouldReturnErrors()
         {
-            Engine.Domain.Models.Engine engine = GetEngine();
+            MyEngine engine = GetEngine();
             _mockEngineHandler.Setup(x => x.CreateEngine(engine)).Returns(Task.FromResult(new Result { Id = default(ObjectId), Errors = new List<string> { "Code not accepted, try again " } }));
 
             var result = await _engineController.CreateEngineAsync(engine);
@@ -50,9 +50,9 @@ namespace EngineApi.Api.Test.Controllers
 
         }
 
-        private static Engine.Domain.Models.Engine GetEngine()
+        private static MyEngine GetEngine()
         {
-            return new Engine.Domain.Models.Engine
+            return new MyEngine
             {
                 Id = default(ObjectId),
                 Code = 0,
@@ -71,7 +71,7 @@ namespace EngineApi.Api.Test.Controllers
         [Fact]
         public async void CreateEngine_WithId_ShouldReturnId()
         {
-            Engine.Domain.Models.Engine engine = new Engine.Domain.Models.Engine
+            var engine = new MyEngine
             {
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 2,
@@ -97,7 +97,7 @@ namespace EngineApi.Api.Test.Controllers
         public async void GetEngineById_GivenAvailableCode_ShouldReturnOKAsync()
         {
             //Arrange
-            var engine = new Engine.Domain.Models.Engine
+            var engine = new MyEngine
             {
                 Id = new ObjectId("6048d0b57757e1f98eb48273"),
                 Code = 1,
@@ -124,7 +124,7 @@ namespace EngineApi.Api.Test.Controllers
         public async Task GetEngineById_GivenUnvailableCode_ShouldReturnNotFoundAsync()
         {
             //Arrange
-            _mockEngineHandler.Setup(x => x.GetEngineById(It.IsAny<int>())).ReturnsAsync((Engine.Domain.Models.Engine)null);
+            _mockEngineHandler.Setup(x => x.GetEngineById(It.IsAny<int>())).ReturnsAsync((MyEngine)null);
 
             //Act
             var result = await _engineController.GetEngineById(1);

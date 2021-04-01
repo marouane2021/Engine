@@ -24,7 +24,7 @@ namespace Engine.Domain.Handlers
             _engineRepository = engineRepository ?? throw new ArgumentNullException(nameof(engineRepository));
         }
 
-        public async Task<Result> CreateEngine(Models.Engine engine)
+        public async Task<Result> CreateEngine(MyEngine engine)
         {
             var result = new Result();
             var errorList = new List<string>();
@@ -48,7 +48,7 @@ namespace Engine.Domain.Handlers
             return result;
         }
 
-        private static List<string> ValidateFields(Models.Engine engine, List<string> errorList)
+        private static List<string> ValidateFields(MyEngine engine, List<string> errorList)
         {
             if (engine.Code <= 0)
             {
@@ -76,7 +76,7 @@ namespace Engine.Domain.Handlers
             }
             return errorList;
         }
-        public async Task<Engine.Domain.Models.Engine> GetEngineById(int code)
+        public async Task<MyEngine> GetEngineById(int code)
         {
             var engines = await _engineRepository.GetEngineById(code).ConfigureAwait(false);
 
@@ -88,11 +88,11 @@ namespace Engine.Domain.Handlers
 
 
 
-        public async Task<List<Models.Engine>> GetEngines()
+        public async Task<List<MyEngine>> GetEngines()
         {
             return await _engineRepository.GetEngines();
         }
-        public async Task<bool> UpdateEngine(int code, Models.Engine engine)
+        public async Task<bool> UpdateEngine(int code, MyEngine engine)
         {
             if (engine == null)
             {

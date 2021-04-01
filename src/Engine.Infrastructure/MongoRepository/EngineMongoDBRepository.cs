@@ -18,7 +18,7 @@ namespace Engine.Infrastructure.MongoRepository
         /// <summary>
         /// Gets or sets the collection.
         /// </summary>
-        internal IMongoCollection<Domain.Models.Engine> _collection { get; set; }
+        internal IMongoCollection<MyEngine> _collection { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EngineMongoDBRepository"/> class.
@@ -28,7 +28,7 @@ namespace Engine.Infrastructure.MongoRepository
         public EngineMongoDBRepository(ILogger<MongoClientFactory> logger, IOptions<Settings> options)
             : base(options, logger)
         {
-            _collection = _database.GetCollection<Domain.Models.Engine>(options.Value.Collection);
+            _collection = _database.GetCollection<MyEngine>(options.Value.Collection);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="CompetingOfferChangesMongoDBRepository"/> class.
@@ -37,13 +37,13 @@ namespace Engine.Infrastructure.MongoRepository
         /// <param name="options">options.</param>
         /// <param name="collection">The collection.</param>
         public EngineMongoDBRepository(ILogger<MongoClientFactory> logger, IOptions<Settings> options,
-            IMongoCollection<Engine.Domain.Models.Engine> collection)
+            IMongoCollection<MyEngine> collection)
             : base(options, logger)
         {
             _collection = collection;
         }
 
-        public async Task<ObjectId> CreateEngine(Domain.Models.Engine engine)
+        public async Task<ObjectId> CreateEngine(MyEngine engine)
         {
             try
             {
@@ -64,12 +64,12 @@ namespace Engine.Infrastructure.MongoRepository
 
             return await result.AnyAsync();
         }
-        public async Task<Engine.Domain.Models.Engine> GetEngineById(int code)
+        public async Task<MyEngine> GetEngineById(int code)
         {
             try
             {
                 var item = await _collection
-                   .Find(Builders<Engine.Domain.Models.Engine>.Filter.Eq("Code", code))
+                   .Find(Builders<MyEngine>.Filter.Eq("Code", code))
                    .FirstOrDefaultAsync();
 
                 return item;
@@ -81,7 +81,7 @@ namespace Engine.Infrastructure.MongoRepository
             }
         }
 
-        public async Task<List<Domain.Models.Engine>> GetEngines()
+        public async Task<List<MyEngine>> GetEngines()
         {
             
             return await _collection.Find(_ => true).ToListAsync();
@@ -90,16 +90,21 @@ namespace Engine.Infrastructure.MongoRepository
 
 
     }
-        public async Task<bool> UpdateEngine(int code, Domain.Models.Engine engine)
+        public async Task<bool> UpdateEngine(int code, MyEngine engine)
         {
             if (GetEngineById(code) == null)
             {
                 return false;
             }
             //var filter = Builders<Domain.Models.Engine>.Filter.Eq(s => s.Code, code);
-            var update = Builders<Domain.Models.Engine>.Update.Set(s => s.Name, engine.Name);
+            var update = Builders<MyEngine>.Update
+                                            .Set(s => s.Name, engine.Name)
+                                            .Set(s => s.IsEnable, engine.IsEnable)
+                                            .Set(s => s.Code, engine.Code)
+                ;
             var result = await _collection.UpdateOneAsync(model => model.Code == code, update);
-
+            //var filter = Builders<Domain.Models.Engine>.Filter.Eq("Code", engine.Code);
+            //var result = await _collection.ReplaceOneAsync(filter, engine);
             return true;
 
         }
