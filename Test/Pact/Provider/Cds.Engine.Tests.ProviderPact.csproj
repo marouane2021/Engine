@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ProjectGuid>{59DE2E00-AE88-41E9-8ECE-05FEE4921C76}</ProjectGuid>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cds.Foundation.Test" Version="2.0.0" />
+    <PackageReference Include="Cds.Foundation.Test.Pact" Version="2.0.0" />
+    <PackageReference Include="PactNet.Linux.x64" Version="2.5.3" />
+    <PackageReference Include="PactNet.Windows" Version="2.5.3" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Engine.Domain\Engine.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\EngineApi.Api\EngineApi.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Json\sellerEP_GetActiveSellers.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

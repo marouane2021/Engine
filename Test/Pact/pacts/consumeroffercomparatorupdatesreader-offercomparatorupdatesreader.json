@@ -1,0 +1,122 @@
+{
+  "consumer": {
+    "name": "ConsumerOfferComparatorUpdatesReader"
+  },
+  "provider": {
+    "name": "OfferComparatorUpdatesReader"
+  },
+  "interactions": [
+    {
+      "description": "A request for Competing Offer Changes",
+      "providerState": "Get Competing Offers Changes TechnicalError",
+      "request": {
+        "method": "get",
+        "path": "/sellers/0/competing-offers-changes"
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+        },
+        "body": null
+      }
+    },
+    {
+      "description": "A request for Competing Offer Changes",
+      "providerState": "Get Competing Offers Changes Forbidden",
+      "request": {
+        "method": "get",
+        "path": "/sellers/10/competing-offers-changes"
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "A request for Competing Offer Changes",
+      "providerState": "Get Competing Offers Changes NoContent",
+      "request": {
+        "method": "get",
+        "path": "/sellers/80/competing-offers-changes"
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+        },
+        "body": null
+      }
+    },
+    {
+      "description": "A request for Competing Offer Changes",
+      "providerState": "Get Competing Offers Changes success",
+      "request": {
+        "method": "get",
+        "path": "/sellers/9200/competing-offers-changes"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/vnd.restful+json; charset=utf-8"
+        },
+        "body": {
+          "json_class": "Pact::SomethingLike",
+          "contents": [
+            {
+              "lastChangeDate": "2020-06-03T10:24:45.29Z",
+              "product": {
+                "productId": "MQD32FNA",
+                "ean": "0190198462329",
+                "title": "APPLE Macbook Air 13,3\" - Intel Core i5 - RAM 8Go - 128Go SSD",
+                "brandName": "APPLE"
+              },
+              "offers": [
+                {
+                  "productConditionId": 3,
+                  "productStateId": 2,
+                  "price": 782.49,
+                  "isBestOffer": false,
+                  "isWithCommercialOperation": false,
+                  "isAvailable": true,
+                  "seller": {
+                    "name": "Vendido - Reconditionne",
+                    "rating": 3.5,
+                    "ratingCount": 1570,
+                    "salesCount": 551,
+                    "shipmentCountry": "FR"
+                  },
+                  "shipping": {
+                    "shippingPrice": 7.29
+                  }
+                },
+                {
+                  "productConditionId": 4,
+                  "productStateId": 2,
+                  "price": 771.62,
+                  "isBestOffer": false,
+                  "isWithCommercialOperation": false,
+                  "isAvailable": true,
+                  "seller": {
+                    "name": "Cash Converters Lyon Vaise",
+                    "rating": 4.8,
+                    "ratingCount": 4,
+                    "salesCount": 433,
+                    "shipmentCountry": "FR"
+                  },
+                  "shipping": {
+                    "shippingPrice": 0.7
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "1.0.0"
+    }
+  }
+}
