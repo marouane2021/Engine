@@ -4,11 +4,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 	<ProjectGuid>{BF557638-7AF1-4F08-AB6A-5368E4D7F0C6}</ProjectGuid>
 	<IsPackable>false</IsPackable>
-	<RootNamespace>Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact</RootNamespace>
+	<RootNamespace>Cds.Engine.Tests.ConsumerPact</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Cds.Foundation.Test.Pact" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7" />
     <PackageReference Include="PactNet.Linux.x64" Version="2.5.3" />
     <PackageReference Include="PactNet.Windows" Version="2.5.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -16,10 +17,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Engine.Domain\Engine.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Json\EngineResponse.json">
+    <None Update="EPConsumerTest\Json\EnginesEPResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Json\EnginesResponses.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Json\Engine_response_success.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Json\PostResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

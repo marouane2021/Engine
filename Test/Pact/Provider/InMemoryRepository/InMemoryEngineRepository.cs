@@ -6,120 +6,94 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cds.OfferComparatorUpdatesReader.InMemoryRepository
+namespace Cds.Engine.Tests.ProviderPact
 {
-    /// <summary>
-    /// InMemory CompetingOffer Changes Repository
-    /// </summary>
+   
     public class InMemoryEngineRepository : IEngineRepository
     {
-        /// <summary>
-        /// Gets the competing offer changes.
-        /// </summary>
-        /// <param name="sellerId">The seller identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        [Obsolete]
         public Task<MyEngine> GetEngineById(int code)
         {
             var engine = new MyEngine
             {
-                Id = "6048d0b57757e1f98eb48273",
-                Code = 2,
-                Name = "beaute",
+                Id = new ObjectId(timestamp: 1617721631, machine: 7894647, pid: 13311, increment: 5403081),
+                Code = 16,
+                Name = "Beuate",
                 IsEnable = true,
-                SearchText = "hello",
-                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
-                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
-                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
-                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
-                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+                SearchText = "string",
+                Scopes = new List<Scope> { new Scope { ScopeId = 2, Name = "string", Order = 0, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 1, IsEnable = true, IsMandatory = true, Label = "string", Order = 0, Type = "string", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 1, ExternalCodeId = 0, Order = 0, Label = "string" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "string", IsEnable = true, OpenInNewTab = true, Order = 0, UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string", Alt = "string", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "string" } }
             };
-            if (code == engine.Code)
+            if (code == 16)
             {
                 return Task.FromResult(engine);
-
             }
 
             else
             {
-                throw new NotImplementedException();
-
+                return null;
             }
         }
-
-        /// <summary>
-        /// Sets the offer change as read.
-        /// </summary>
-        /// <param name="sellerId">The seller identifier.</param>
-        /// <param name="updatedProductOffer">The updated product offer.</param>
-        /// <returns></returns>
+        [Obsolete]
         public Task<List<MyEngine>> GetEngines()
         {
           List<MyEngine> engine = new List<MyEngine>
             {
                 new  MyEngine{
-                Id = "6048d0b57757e1f98eb48273",
-                Code = 1,
-                Name = "beaute",
+               Id = new ObjectId(timestamp: 1617878829, machine: 15810591, pid:  -14883, increment: 1192671),
+                Code = 16,
+                Name = "Beaute",
                 IsEnable = true,
-                SearchText = "hello",
-                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
-                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
-                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
-                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
-                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+                SearchText = "string",
+                Scopes = new List<Scope> { new Scope { ScopeId = 2, Name = "string", Order = 0, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 3, IsEnable = true, IsMandatory = true, Label = "string", Order = 0, Type = "string", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 4, ExternalCodeId = 0, Order = 0, Label = "string" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "string", IsEnable = true, OpenInNewTab = true, Order = 0, UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string", Alt = "string", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "string" } }
             },
              new  MyEngine
              {
-                 Id = "6048d0b57757e1f98eb48253",
-                 Code = 12,
-                 Name = "alimentation",
+               Id = new ObjectId(timestamp: 1617883676, machine: 11034557, pid:  27952, increment: 7085875),
+                 Code = 17,
+                 Name = "Filme",
                  IsEnable = true,
-                 SearchText = "hello",
-                 Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
-                 InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
-                 BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
-                 Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
-                 MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+                 SearchText = "string",
+                Scopes = new List<Scope> { new Scope { ScopeId = 3, Name = "string", Order = 0, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 1, IsEnable = true, IsMandatory = true, Label = "string", Order = 0, Type = "string", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 2, ExternalCodeId = 0, Order = 0, Label = "string" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "string", IsEnable = true, OpenInNewTab = true, Order = 0, UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string", Alt = "string", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "string" } }
              }
              };
             return Task.FromResult(engine);
         }
 
+        [Obsolete]
         public Task<ObjectId> CreateEngine(MyEngine moteur)
         {
-           new MyEngine
-            {
-
-                Id = "6048d0b57757e1f98eb48273",
-                Code = 2,
-                Name = "beaute",
-                IsEnable = true,
-                SearchText = "hello",
-                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
-                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
-                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
-                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
-                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
-
-            };
-            return Task.FromResult((new ObjectId(moteur.Id)));
+          
+          
+            return Task.FromResult(new ObjectId(timestamp: 1617721631, machine: 7894647, pid: 13311, increment: 5403081));
         }
 
+        [Obsolete]
         public Task<bool> GetEngineByCode(int code)
         {
             var engine = new MyEngine
             {
-                Id = "6048d0b57757e1f98eb48273",
-                Code = 2,
-                Name = "beaute",
+                Id = new ObjectId(timestamp: 1617721631, machine: 7894647, pid: 13311, increment: 5403081),
+                Code = 16,
+                Name = "Beuate",
                 IsEnable = true,
-                SearchText = "hello",
-                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
-                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
-                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
-                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
-                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+                SearchText = "string",
+                Scopes = new List<Scope> { new Scope { ScopeId = 2, Name = "string", Order = 0, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 1, IsEnable = true, IsMandatory = true, Label = "string", Order = 0, Type = "string", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 1, ExternalCodeId = 0, Order = 0, Label = "string" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "string", IsEnable = true, OpenInNewTab = true, Order = 0, UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string", Alt = "string", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "string" } }
             };
             if(engine.Code == code)
                 return Task.FromResult(true);
@@ -127,40 +101,43 @@ namespace Cds.OfferComparatorUpdatesReader.InMemoryRepository
 
         }
 
+        [Obsolete]
         public Task<bool> UpdateEngine(int code, MyEngine engine)
         {
             new MyEngine
             {
-                Id = "6048d0b57757e1f98eb48273",
-                Code = 2,
-                Name = "beaute",
+                Id = new ObjectId(timestamp: 1617721631, machine: 7894647, pid: 13311, increment: 5403081),
+                Code = 16,
+                Name = "Beuate",
                 IsEnable = true,
-                SearchText = "hello",
-                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
-                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
-                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
-                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
-                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+                SearchText = "string",
+                Scopes = new List<Scope> { new Scope { ScopeId = 2, Name = "string", Order = 0, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 1, IsEnable = true, IsMandatory = true, Label = "string", Order = 0, Type = "string", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 1, ExternalCodeId = 0, Order = 0, Label = "string" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "string", IsEnable = true, OpenInNewTab = true, Order = 0, UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string", Alt = "string", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "string" } }
             };
             if (engine.Code == code)
                 return Task.FromResult(true);
             return Task.FromResult(false);
+
         }
 
+        [Obsolete]
         public Task<bool> DeleteEngine(int code)
         {
-           var engine =  new MyEngine
+            var engine = new MyEngine
             {
-                Id = "6048d0b57757e1f98eb48273",
-                Code = 2,
-                Name = "beaute",
+                Id = new ObjectId(timestamp: 1617721631, machine: 7894647, pid: 13311, increment: 5403081),
+                Code = 16,
+                Name = "Beuate",
                 IsEnable = true,
-                SearchText = "hello",
-                Scopes = new List<Scope> { new Scope { ScopeId = 16, Name = "sc", Order = 5, IsEnable = true } },
-                InputFields = new List<InputField> { new InputField { InputId = 56, IsEnable = true, IsMandatory = true, Label = "beauté", Order = 5, Type = "input", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 668, ExternalCodeId = 666, Order = 9, Label = "Parameter" } } } },
-                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "pic", IsEnable = true, OpenInNewTab = true, Order = 7, UrlImageDesktop = "htttpkf", UrlLinkDesktop = "iioloo", UrlImageMobile = "jhmùhù", UrlLinkMobile = "iomom" } },
-                Logo = new List<Logo> { new Logo { UrlImageDesktop = "htrrttpkf", UrlLinkDesktop = "iigtgoloo", UrlImageMobile = "jhmrggtrgù", UrlLinkMobile = "igtgtomom", Alt = "logo", IsEnable = true, OpenInNewTab = true } },
-                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "marketing" } }
+                SearchText = "string",
+                Scopes = new List<Scope> { new Scope { ScopeId = 2, Name = "string", Order = 0, IsEnable = true } },
+                InputFields = new List<InputField> { new InputField { InputId = 1, IsEnable = true, IsMandatory = true, Label = "string", Order = 0, Type = "string", Parameters = new List<Parameter> { new Parameter { ScopeParameterId = 1, ExternalCodeId = 0, Order = 0, Label = "string" } } } },
+                BackGroundImages = new List<BackGroundImage> { new BackGroundImage { Alt = "string", IsEnable = true, OpenInNewTab = true, Order = 0, UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string" } },
+                Logo = new List<Logo> { new Logo { UrlImageDesktop = "string", UrlLinkDesktop = "string", UrlImageMobile = "string", UrlLinkMobile = "string", Alt = "string", IsEnable = true, OpenInNewTab = true } },
+                MarketingText = new List<MarketingText> { new MarketingText { IsEnable = true, Text = "string" } }
             };
             if (engine.Code == code)
                 return Task.FromResult(true);

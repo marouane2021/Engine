@@ -1,5 +1,7 @@
 ﻿using Cds.Foundation.Test;
 using Cds.Foundation.Test.Pact.Consumer;
+using Engine.Domain.Models;
+using MongoDB.Bson;
 using Newtonsoft.Json;
 using PactNet.Matchers;
 using PactNet.Mocks.MockHttpService.Models;
@@ -7,28 +9,29 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using Xunit;
 
-namespace Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact
+namespace Cds.Engine.Tests.ConsumerPact
 {
     /// <summary>
     /// OfferComparator UpdatesReader Consumer Tests
     /// </summary>
-    /// <seealso cref="Cds.Foundation.Test.Pact.Consumer.BaseConsumerTests{Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact.EngineConsumer}" />
     public class EngineConsumerTests : BaseConsumerTests<EngineConsumer>
     {
-        // private readonly string getCompetingOfferChangesRoutePath = "/sellers/{0}/competing-offers-changes/";
-
+    
         public EngineConsumerTests(EngineConsumer consumer) : base(consumer) { }
 
         [Fact]
         public async Task Consumer_GetEngine_Success_Return200()
         {
-            var code = 117;
+            var code = 16;
             string routePath = $"/Moteur/GetEngineByCode/{code}";
 
-            var responseBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/EngineResponse.json")
+            var responseBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/Engine_response_success.json")
                 .ConfigureAwait(false));
 
             MockProviderService
@@ -44,7 +47,7 @@ namespace Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact
                     Status = 200,
                     Headers = new Dictionary<string, object>
                     {
-                        { "Content-Type","application/vnd.restful+json; charset=utf-8"},
+                        { "Content-Type","application/json; charset=utf-8"},
                     },
                     Body = Match.Type(responseBody)
                 });
@@ -60,33 +63,30 @@ namespace Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact
         }
 
         [Fact]
-        public async Task Consumer_GetEngine_NoContent_Return404()
+        public async Task Consumer_GetEngine_NotFound_Return404()
             
         {
             var code = 369;
-            string routePath = $"/Moteur/GetEngineByCode/{code}";
+            string path = $"/Moteur/GetEngineByCode/{code}";
 
             MockProviderService
-                .Given("Get Engine NoContent")
-                .UponReceiving("A request Engine")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = routePath
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 404,
-                    Headers = null,
-                    Body = null
-                });
+               .Given("Get Engine NotFound")
+               .UponReceiving("A request for Engines")
+               .With(new ProviderServiceRequest
+               {
+                   Method = HttpVerb.Get,
+                   Path = path
+               })
+               .WillRespondWith(new ProviderServiceResponse
+               {
+                   Status = 404
+               });
 
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
+            // Act
+            HttpResponseMessage httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, path)).ConfigureAwait(false);
 
-            var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            Assert.Null(responseContent);
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, httpResponse.StatusCode);
 
             MockProviderService.VerifyInteractions();
         }
@@ -94,37 +94,26 @@ namespace Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact
         [Fact]
         public async Task Consumer_DeleteEngine_Success_Return200()
         {
-            var code = 117;
-            string routePath = $"/Moteur/DeleteEngine/{code}";
-
-            var responseBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/EngineResponse.json")
-                .ConfigureAwait(false));
-
+            
+            string path = $"/Moteur/DeleteEngine/{16}";
             MockProviderService
-                .Given("Delete Engine success")
-                .UponReceiving("A request for Engine")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Delete,
-                    Path = routePath
-                })
+                .Given("elete Engine success")
+                .UponReceiving("A request for Engines")
+                 .With(new ProviderServiceRequest
+                 {
+                     Method = HttpVerb.Delete,
+                     Path = path
+                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
-                    Status = 200,
-                    Headers = new Dictionary<string, object>
-                    {
-                        { "Content-Type","application/vnd.restful+json; charset=utf-8"},
-                    },
-                    Body = Match.Type(responseBody)
+                    Status = 200
                 });
 
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
+            // Act
+            HttpResponseMessage httpResponse = await HttpClientHelper.ExecuteDeleteHttpActionAsync(new Uri(MockProviderServiceBaseUri, path)).ConfigureAwait(false);
 
-            var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-
+            // Assert
             Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
-            Assert.Equal(responseBody, responseContent);
-
             MockProviderService.VerifyInteractions();
         }
 
@@ -132,237 +121,200 @@ namespace Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact
         public async Task Consumer_DeleteEngine_NoContent_Return404()
 
         {
-            var code = 369;
-            string routePath = $"/Moteur/DeleteEngine/{code}";
+            var code = 28;
+            string path = $"/Moteur/DeleteEngine/{code}";
 
             MockProviderService
-                .Given("Delete Engine NoContent")
-                .UponReceiving("A request Engine")
+               .Given("Delete Engine NotFound")
+               .UponReceiving("A request for Engines")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Delete,
-                    Path = routePath
+                    Path = path,
                 })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 404,
-                    Headers = null,
-                    Body = null
-                });
+               .WillRespondWith(new ProviderServiceResponse
+               {
+                   Status = 404
+               });
 
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
+            // Act
+            HttpResponseMessage httpResponse = await HttpClientHelper.ExecuteDeleteHttpActionAsync(new Uri(MockProviderServiceBaseUri, path)).ConfigureAwait(false);
 
-            var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            Assert.Null(responseContent);
-
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, httpResponse.StatusCode);
             MockProviderService.VerifyInteractions();
         }
 
         [Fact]
+        [Obsolete]
         public async Task Consumer_UpdateEngine_Success_Return200()
         {
-            var code = 117;
-            string routePath = $"/Moteur/Moteur/UpdateEngine/{code}";
-
-            var responseBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/EngineResponse.json")
-                .ConfigureAwait(false));
-
+            string path = $"/Moteur/UpdateEngine/{16}";
+            object requestBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/Engine_response_success.json").ConfigureAwait(false));
             MockProviderService
-                .Given("Update Engine success")
-                .UponReceiving("A request for Engine")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Put,
-                    Path = routePath
-                })
+                .Given("Update Engine Success")
+                .UponReceiving("A request for Engines")
+                 .With(new ProviderServiceRequest
+                 {
+                     Method = HttpVerb.Put,
+                     Path = path,
+                     Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                     Body = requestBody
+                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
-                    Status = 200,
-                    Headers = new Dictionary<string, object>
-                    {
-                        { "Content-Type","application/vnd.restful+json; charset=utf-8"},
-                    },
-                    Body = Match.Type(responseBody)
+                    Status = 200
                 });
 
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
+            // Act
+            StringContent httpContent = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponse = await HttpClientHelper.ExecutePutHttpActionAsync(new Uri(MockProviderServiceBaseUri, path), httpContent).ConfigureAwait(false);
 
-            var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-
+            // Assert
             Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
-            Assert.Equal(responseBody, responseContent);
-
             MockProviderService.VerifyInteractions();
         }
 
-        [Fact]
-        public async Task Consumer_UpdateEngine_NoContent_Return404()
+    [Fact]
+        public async Task Consumer_UpdateEngine_NotFound_Return404()
 
         {
             var code = 369;
-            string routePath = $"/Moteur/UpdateEngine/{code}";
+            string path = $"/Moteur/UpdateEngine/{code}";
 
+            object requestBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/Engine_response_success.json").ConfigureAwait(false));
             MockProviderService
-                .Given("Update Engine NoContent")
-                .UponReceiving("A request Engine")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Put,
-                    Path = routePath
-                })
+                .Given("Update Engine NotFound")
+                .UponReceiving("A request for Engines")
+                 .With(new ProviderServiceRequest
+                 {
+                     Method = HttpVerb.Put,
+                     Path = path,
+                     Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                     Body = requestBody
+                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
-                    Status = 404,
-                    Headers = null,
-                    Body = null
+                    Status = 404
                 });
 
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
+            // Act
+            StringContent httpContent = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponse = await HttpClientHelper.ExecutePutHttpActionAsync(new Uri(MockProviderServiceBaseUri, path), httpContent).ConfigureAwait(false);
 
-            var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            Assert.Null(responseContent);
-
-            MockProviderService.VerifyInteractions();
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, httpResponse.StatusCode);
         }
         [Fact]
         public async Task Consumer_GetAllEngines_Success_Return200()
         {
            
-            string routePath = $"/Moteur/GetAll/Engines";
+            string path = $"/Moteur/GetAll/Engines";
 
-            var responseBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/EngineResponse.json")
-                .ConfigureAwait(false));
-
+            object responseBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/EnginesResponses.json").ConfigureAwait(false));
             MockProviderService
-                .Given("Get Engines success")
-                .UponReceiving("A request for Engine")
+                .Given("Get  All Engines success")
+                .UponReceiving("A request for Engines")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Get,
-                    Path = routePath
+                    Path = path,
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 200,
                     Headers = new Dictionary<string, object>
                     {
-                        { "Content-Type","application/vnd.restful+json; charset=utf-8"},
+                        { "Content-Type", "application/json; charset=utf-8" }
                     },
-                    Body = Match.Type(responseBody)
+                    Body = responseBody
                 });
 
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
-
+            // Act
+            HttpResponseMessage httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, path)).ConfigureAwait(false);
             var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
 
+            // Assert
             Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
             Assert.Equal(responseBody, responseContent);
-
             MockProviderService.VerifyInteractions();
         }
 
-        [Fact]
-        public async Task Consumer_GetAllEngines_NoContent_Return404()
-
-        {
-            
-            string routePath = $"/Moteur/GetAll/Engines";
-
-            MockProviderService
-                .Given("Get Engines NoContent")
-                .UponReceiving("A request Engine")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Get,
-                    Path = routePath
-                })
-                .WillRespondWith(new ProviderServiceResponse
-                {
-                    Status = 404,
-                    Headers = null,
-                    Body = null
-                });
-
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
-
-            var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            Assert.Null(responseContent);
-
-            MockProviderService.VerifyInteractions();
-        }
         [Fact]
         public async Task Consumer_CreateEngine_Success_Return200()
         {
 
-            string routePath = $"/Moteur/CreateEngine";
-
-            var responseBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/EngineResponse.json")
-                .ConfigureAwait(false));
-
+            string path = $"/Moteur/CreateEngine";
+            object requestBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync(@"Json/PostResponse.json").ConfigureAwait(false));
             MockProviderService
-                .Given("Create Engines success")
-                .UponReceiving("A request to Create Engine")
-                .With(new ProviderServiceRequest
-                {
-                    Method = HttpVerb.Post,
-                    Path = routePath
-                })
+                .Given("Create Engine success")
+                .UponReceiving("A request for Engines")
+                 .With(new ProviderServiceRequest
+                 {
+                     Method = HttpVerb.Post,
+                     Path = path,
+                     Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                     Body = requestBody
+                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
-                    Status = 200,
-                    Headers = new Dictionary<string, object>
-                    {
-                        { "Content-Type","application/vnd.restful+json; charset=utf-8"},
-                    },
-                    Body = Match.Type(responseBody)
+                    Status = 200
                 });
 
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
+            // Act
+            StringContent httpContent = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponse = await HttpClientHelper.ExecutePostHttpActionAsync(new Uri(MockProviderServiceBaseUri, path), httpContent).ConfigureAwait(false);
 
-            var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-
+            // Assert
             Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
-            Assert.Equal(responseBody, responseContent);
-
             MockProviderService.VerifyInteractions();
+            
         }
 
         [Fact]
         public async Task Consumer_CreateEngine_MethodNotAllowed_Return405()
 
         {
-
-            string routePath = $"/Moteur/CreateEngine";
+            string path = $"/Moteur/CreateEngine";
+            object requestBody = JsonConvert.DeserializeObject(await File.ReadAllTextAsync($"Json/Engine_response_success.json")
+              .ConfigureAwait(false));
 
             MockProviderService
-                .Given("Get Engines NoContent")
-                .UponReceiving("A request Engine")
+                .Given("Create Engine Method Not Allowed")
+                .UponReceiving("A request for Engines")
                 .With(new ProviderServiceRequest
                 {
                     Method = HttpVerb.Post,
-                    Path = routePath
+                    Headers = new Dictionary<string, object>
+                    {
+                        { "Content-Type", "application/json; charset=utf-8" }
+                    },
+                    Body = requestBody,
+                    Path = path
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
                     Status = 405,
-                    Headers = null,
-                    Body = null
                 });
 
-            var httpResponse = await HttpClientHelper.ExecuteGetHttpActionAsync(new Uri(MockProviderServiceBaseUri, routePath)).ConfigureAwait(false);
+            // Action
+            StringContent httpContent = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponse = await HttpClientHelper.ExecutePostHttpActionAsync(new Uri(MockProviderServiceBaseUri, path), httpContent).ConfigureAwait(false);
 
-            var responseContent = JsonConvert.DeserializeObject(await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            Assert.Null(responseContent);
+            // Assert
+            Assert.Equal(HttpStatusCode.MethodNotAllowed, httpResponse.StatusCode);
 
             MockProviderService.VerifyInteractions();
         }
     }
+    
 }

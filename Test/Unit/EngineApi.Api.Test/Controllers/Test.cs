@@ -127,11 +127,11 @@ namespace EngineApi.Api.Test.Controllers
             _mockEngineHandler.Setup(x => x.GetEngineById(It.IsAny<int>())).ReturnsAsync((MyEngine)null);
 
             //Act
-            var result = await _engineController.GetEngineById(1);
+            var result = await _engineController.GetEngineById(19);
 
             //Assert
             Assert.NotNull(result);
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
     }

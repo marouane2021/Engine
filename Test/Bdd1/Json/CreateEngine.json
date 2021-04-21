@@ -1,0 +1,62 @@
+{
+  "id": {},
+  "code": 16,
+  "name": "Beuate",
+  "isEnable": true,
+  "searchText": "string",
+  "scopes": [
+    {
+      "scopeId": 2,
+      "order": 0,
+      "name": "string",
+      "isEnable": true
+    }
+  ],
+  "inputFields": [
+    {
+      "inputId": 1,
+      "isEnable": true,
+      "isMandatory": true,
+      "label": "string",
+      "order": 0,
+      "type": "string",
+      "parameters": [
+        {
+          "scopeParameterId": 1,
+          "externalCodeId": 0,
+          "order": 0,
+          "label": "string"
+        }
+      ]
+    }
+  ],
+  "backGroundImages": [
+    {
+      "alt": "string",
+      "isEnable": true,
+      "openInNewTab": true,
+      "order": 0,
+      "urlImageDesktop": "string",
+      "urlLinkDesktop": "string",
+      "urlImageMobile": "string",
+      "urlLinkMobile": "string"
+    }
+  ],
+  "logo": [
+    {
+      "urlImageDesktop": "string",
+      "urlLinkDesktop": "string",
+      "urlImageMobile": "string",
+      "urlLinkMobile": "string",
+      "alt": "string",
+      "isEnable": true,
+      "openInNewTab": true
+    }
+  ],
+  "marketingText": [
+    {
+      "isEnable": true,
+      "text": "string"
+    }
+  ]
+}

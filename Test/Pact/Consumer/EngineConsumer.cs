@@ -1,6 +1,6 @@
 ﻿using Cds.Foundation.Test.Pact.Consumer;
 
-namespace Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact
+namespace Cds.Engine.Tests.ConsumerPact
 {
     /// <summary>
     /// OfferComparator UpdatesReader Consumer
@@ -10,6 +10,6 @@ namespace Cds.OfferComparatorUpdatesReader.Tests.ConsumerPact
         /// <summary>
         /// Initializes a new instance of the <see cref="EngineConsumer"/> class.
         /// </summary>
-        public EngineConsumer() : base() { }
+        public EngineConsumer() { }
     }
 }

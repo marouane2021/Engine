@@ -7,7 +7,6 @@ namespace Engine.Domain.Abstractions.Dtos.Handlers
     public interface IEngineHandler
     {
         public Task<Result> CreateEngine(MyEngine engine);
-        //public Task<bool> CheckIsEngineActive(int code);
         public Task<MyEngine> GetEngineById(int code);
       public  Task<List<MyEngine>> GetEngines();
        public Task<bool> UpdateEngine(int code, MyEngine engine);

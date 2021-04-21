@@ -6,7 +6,7 @@ namespace Cds.Engine.Tests.ProviderPact
 {
    public  class Constants
     {
-        public static string HooksBaseIp = "http://localhost:5016";
+        public static string HooksBaseIp = "http://localhost:5001";
         public static string TestConfigurationFile = "appsettings.json";
     }
 }

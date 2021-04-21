@@ -27,12 +27,28 @@ namespace Engine.Infrastructure.Test.MongoRepository
         }
         public Task<IAsyncCursor<TProjection>> FindAsync<TProjection>(FilterDefinition<T> filter, FindOptions<T, TProjection> options = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var documentSerializer = BsonSerializer.SerializerRegistry.GetSerializer<T>();
+           
+            return Task.FromResult(GetCursor<TProjection>().Object);
 
-            var renderedFilter = filter.Render(documentSerializer, BsonSerializer.SerializerRegistry);
-            var code = renderedFilter.GetElement("Code");
-            var newList = _results.Cast<Engine.Domain.Models.Engine>().ToList().Where(x => x.Code == (int)code.Value).ToList();
-            return Task.FromResult(GetCursor<TProjection>(newList.Cast<T>().ToList()).Object);
+        }
+
+        private Mock<IAsyncCursor<TProjection>> GetCursor<TProjection>()
+        {
+            var list = _results.Select(t => (TProjection)(object)t);
+
+            Mock<IAsyncCursor<TProjection>> _bookCursor = new Mock<IAsyncCursor<TProjection>>();
+
+            _bookCursor.Setup(_ => _.Current).Returns(list);
+            _bookCursor
+                .SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
+                    .Returns(true)
+                    .Returns(false);
+            _bookCursor
+                .SetupSequence(_ => _.MoveNextAsync(It.IsAny<CancellationToken>()))
+                    .Returns(Task.FromResult(true))
+                     .Returns(Task.FromResult(false));
+
+            return _bookCursor;
         }
 
         public Task<UpdateResult> UpdateOneAsync(IClientSessionHandle session, FilterDefinition<T> filter, UpdateDefinition<T> update, UpdateOptions options = null, CancellationToken cancellationToken = default(CancellationToken))
@@ -237,7 +253,7 @@ namespace Engine.Infrastructure.Test.MongoRepository
 
         public Task<DeleteResult> DeleteOneAsync(FilterDefinition<T> filter, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return Task.Run<DeleteResult>(() => new DeleteResult.Acknowledged(1));
         }
 
         public Task<DeleteResult> DeleteOneAsync(FilterDefinition<T> filter, DeleteOptions options, CancellationToken cancellationToken = default)
@@ -497,7 +513,7 @@ namespace Engine.Infrastructure.Test.MongoRepository
 
         public Task<UpdateResult> UpdateOneAsync(FilterDefinition<T> filter, UpdateDefinition<T> update, UpdateOptions options = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return Task.Run<UpdateResult> (() => new UpdateResult.Acknowledged(1,1,1));
         }
 
         //public Task<UpdateResult> UpdateOneAsync(IClientSessionHandle session, FilterDefinition<T> filter, UpdateDefinition<T> update, UpdateOptions options = null, CancellationToken cancellationToken = default)

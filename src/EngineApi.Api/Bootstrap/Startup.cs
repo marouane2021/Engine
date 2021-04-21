@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Engine.Domain.Abstractions.Dtos.Handlers;
 using Microsoft.Net.Http.Headers;
+using Engine.Infrastructure;
 
 namespace EngineApi.Api.Bootstrap
 {
@@ -60,7 +61,8 @@ namespace EngineApi.Api.Bootstrap
             //Our dependency injections
             services.AddTransient<MetricReporter>();
             services.AddTransient<IEngineHandler, EngineHandler>();
-            services.AddSingleton<IEngineRepository, EngineMongoDBRepository>();
+           services.AddSingleton<IEngineRepository, EngineMongoDBRepository>();
+            //services.AddSingleton<IEngineRepository, EPEngineRepo>();
             //Cors
             services.AddCors(options =>
             {
@@ -73,10 +75,10 @@ namespace EngineApi.Api.Bootstrap
                       .AllowAnyMethod();
                   });
             });
-
+            services.AddSingleton(_configuration.GetSection("BestOffersApi").Get<BestOfferApi>());
 
         }
-        
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
