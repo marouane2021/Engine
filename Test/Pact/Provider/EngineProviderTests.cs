@@ -1,29 +1,21 @@
 ﻿using Cds.Foundation.Test;
 using Cds.Foundation.Test.Pact.Provider;
-using Cds.OfferComparatorUpdatesReader.Infrastructure.CompetingOffer.Dtos;
-using Cds.OfferComparatorUpdatesReader.Infrastructure.CompetingOffer.MongoRepository.Dtos;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Cds.OfferComparatorUpdatesReader.Tests.Pact.Provider
+namespace Cds.Engine.Tests.ProviderPact
 {
     /// <summary>
     /// Defines the OfferComparatorUpdatesReader provider tests
     /// </summary>
     public class EngineProviderTests : BaseProviderTests<EngineProvider>
     {
-        private readonly IConfiguration _configuration;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EngineProviderTests"/> class
         /// </summary>
@@ -31,54 +23,170 @@ namespace Cds.OfferComparatorUpdatesReader.Tests.Pact.Provider
         /// <param name="provider">The provider</param>
         public EngineProviderTests(ITestOutputHelper output, EngineProvider provider) : base(output, provider)
         {
-            _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json", true).Build();
 
-            ProviderStates.Add("Get Competing Offers Changes success", async () => await MockSellerEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Get Competing Offers Changes TechnicalError", async () => await MockSellerEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Get Competing Offers Changes NoContent", async () => await MockSellerEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Get Competing Offers Changes Forbidden", async () => await MockSellerEpCallReturnSuccessAsync().ConfigureAwait(false));
+            ProviderStates.Add("Get Engine success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+            ProviderStates.Add("Get Engine NotFound", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+            ProviderStates.Add("Get  All Engines success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+            //ProviderStates.Add("Create Engine success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+            //ProviderStates.Add("Create Engine Method Not Allowed", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+            ProviderStates.Add("Update Engine success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+            ProviderStates.Add("Update Engine NotFound", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+            ProviderStates.Add("Delete Engine success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+            ProviderStates.Add("Delete Engine NotFound", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
+
         }
 
         [Fact]
-        public Task Provider_OfferComparatorUpdatesReader() => EnsureProviderHonoursPactAsync();
-
-        /// <summary>
-        /// Mocks the seller ep call return success asynchronous.
-        /// </summary>
-        private async Task MockSellerEpCallReturnSuccessAsync()
+        public Task Provider_EngineReader() => EnsureProviderHonoursPactAsync();
+        private async Task MockEngineEpCallReturnSuccessAsync()
         {
-            StringContent content = new StringContent(JsonSerializer.Serialize(ConstructFeatureSeller("OfferComparator.OfferUpdate")), Encoding.UTF8, "application/json");
+            // Get Engine => OK
             var httpRequest = new HttpRequestMessage
             {
-                Method = HttpMethod.Post,
-                Content = content,
-                RequestUri = new Uri($"{_configuration["SellerEndPoint:Host"]}{_configuration["SellerEndPoint:ActiveSellersRoute"]}"),
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("http://localhost:5001/Moteur/GetEngineByCode/{16}"),
             };
-
             var httpResponse = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(await File.ReadAllTextAsync(@"Json/sellerEP_GetActiveSellers.json").ConfigureAwait(false))
-        };
-
+                Content = new StringContent(await File.ReadAllTextAsync(@"Json/SuccessResponseById.json").ConfigureAwait(false), Encoding.UTF8, "application/json")
+            };
             GlobalServiceHandler.AddResponseMap(
                 httpRequest,
                 httpResponse);
+
+            // Get Engine => NOT FOUND
+            var httpRequest6 = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("http://localhost:5001/Moteur/GetEngineByCode/{369}"),
+            };
+
+            var httpResponse6 = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.NotFound,
+               
+            };
+
+            GlobalServiceHandler.AddResponseMap(
+                httpRequest6,
+                httpResponse6);
+
+            var httpRequest1 = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+
+                RequestUri = new Uri("http://localhost:5001/Moteur/GetAll/Engines"),
+            };
+
+            var httpResponse1 = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(await File.ReadAllTextAsync(@"Json/SuccessResponseAll.json").ConfigureAwait(false))
+            };
+         
+            GlobalServiceHandler.AddResponseMap(
+                httpRequest1,
+                httpResponse1);
+            var httpRequest2 = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("http://localhost:5001/Moteur/CreateEngine"),
+            };
+
+            var httpResponse2 = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(await File.ReadAllTextAsync(@"Json/PostResponse.json").ConfigureAwait(false))
+            };
+
+            GlobalServiceHandler.AddResponseMap(
+                httpRequest2,
+                httpResponse2);
+            var httpRequest10 = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("http://localhost:5001/Moteur/CreateEngine"),
+            };
+
+            var httpResponse10= new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.MethodNotAllowed,
+                Content = new StringContent(await File.ReadAllTextAsync(@"Json/SuccessResponseById.json").ConfigureAwait(false))
+            };
+
+            GlobalServiceHandler.AddResponseMap(
+                httpRequest10,
+                httpResponse10);
+            var httpRequest3 = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+
+                RequestUri = new Uri("http://localhost:5001/Moteur/UpdateEngine/{16}"),
+            };
+
+            var httpResponse3 = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(await File.ReadAllTextAsync(@"Json/SuccessResponseById.json").ConfigureAwait(false))
+            };
+
+            GlobalServiceHandler.AddResponseMap(
+                httpRequest3,
+                httpResponse3);
+            var httpRequest5 = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+
+                RequestUri = new Uri("http://localhost:5001/Moteur/UpdateEngine/{369}"),
+            };
+
+            var httpResponse5 = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Content = new StringContent(await File.ReadAllTextAsync(@"Json/SuccessResponseById.json").ConfigureAwait(false))
+            };
+
+            GlobalServiceHandler.AddResponseMap(
+                httpRequest5,
+                httpResponse5);
+
+            var httpRequest4 = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+
+                RequestUri = new Uri("http://localhost:5001/Moteur/DeleteEngine/{16}"),
+            };
+
+            var httpResponse4 = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(await File.ReadAllTextAsync(@"Json/SuccessResponseById.json").ConfigureAwait(false))
+            };
+
+            GlobalServiceHandler.AddResponseMap(
+                httpRequest4,
+                httpResponse4);
+            // Delete Engine => NOT FOUND
+            var httpRequest8 = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("http://localhost:5001/Moteur/DeleteEngine/{28}"),
+            };
+
+            var httpResponse8 = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Content = new StringContent(await File.ReadAllTextAsync(@"Json/SuccessResponseById.json").ConfigureAwait(false), Encoding.UTF8, "application/json")
+            };
+
+
+            GlobalServiceHandler.AddResponseMap(
+                httpRequest8,
+                httpResponse8);
+         
         }
 
-        #region private helpers
-        /// <summary>
-        /// Constructs the feature seller.
-        /// </summary>
-        /// <param name="featureMessage">The feature message.</param>
-        /// <returns></returns>
-        private static FeatureSellerDto ConstructFeatureSeller(string featureMessage)
-        {
-            return new FeatureSellerDto
-            {
-                FeatureName = featureMessage
-            };
-        }
-        #endregion
+
     }
 }

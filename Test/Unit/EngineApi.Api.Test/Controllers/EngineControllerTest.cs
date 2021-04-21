@@ -1,14 +1,11 @@
 ﻿using Engine.Domain.Abstractions.Dtos.Handlers;
 using Engine.Domain.Models;
 using EngineApi.Api.Controllers.Engines;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -171,22 +168,16 @@ namespace EngineApi.Api.Test
 
             _mockEngineHandler.Setup(x => x.GetEngines()).ReturnsAsync(engine);
 
-
- 
-
             // Act
             var result = await _engineController.GetEngines();
 
             //// Assert
-            Assert.IsType<ContentResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
         [Fact]
         public async void GetEngines_Should_Return_NotFound()
         {
             // Arrange
-
-            
-
             _mockEngineHandler.Setup(x => x.GetEngines());
 
             // Act
@@ -222,7 +213,7 @@ namespace EngineApi.Api.Test
 
             //Assert
             Assert.NotNull(reslt);
-            Assert.IsType<NotFoundResult>(reslt);
+            Assert.IsType<NotFoundObjectResult>(reslt);
         }
         [Fact]
         public async Task DeleteEngineeAsync_GivenUnavailableCode_ShouldReturnNotFoundAsync()
@@ -235,7 +226,7 @@ namespace EngineApi.Api.Test
 
             //Assert
             Assert.NotNull(reslt);
-            Assert.IsType<NotFoundResult>(reslt);
+            Assert.IsType<NotFoundObjectResult>(reslt);
         }
         [Fact]
         public async Task UpdateEngineAsync_GivenEngineWithCodeAndNameString_ShouldReturnNotFoundAsync()
@@ -249,7 +240,7 @@ namespace EngineApi.Api.Test
 
             //Assert
             Assert.NotNull(reslt);
-            Assert.IsType<NotFoundResult>(reslt);
+            Assert.IsType<NotFoundObjectResult>(reslt);
         }
 
     }

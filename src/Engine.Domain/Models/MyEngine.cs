@@ -14,6 +14,7 @@ namespace Engine.Domain.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        [JsonIgnore]
         public ObjectId Id { get; set; }
 
         /// <summary>
@@ -43,11 +44,11 @@ namespace Engine.Domain.Models
         /// <summary>
         /// Gets or sets the last integration time.
         /// </summary>
-        DateTime LastUpdateDate { get; set; }
-        /// <summary>
-        /// Gets or sets the last change date.
-        /// </summary>
-        public DateTime LastChangeDate { get; set; }
+        //DateTime LastUpdateDate { get; set; }
+        ///// <summary>
+        ///// Gets or sets the last change date.
+        ///// </summary>
+        //public DateTime LastChangeDate { get; set; }
 
         /// <summary>
         /// list of the scopes
@@ -76,9 +77,9 @@ namespace Engine.Domain.Models
         /// the marketing text for the engine
         /// </summary>
         public IList<MarketingText> MarketingText { get; set; }
-        public static Engine Create()
+        public static MyEngine Create()
         {
-            return new Engine();
+            return new MyEngine();
         }
         
         

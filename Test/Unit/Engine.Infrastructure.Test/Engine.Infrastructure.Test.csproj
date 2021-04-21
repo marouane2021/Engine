@@ -29,4 +29,10 @@
     <ProjectReference Include="..\..\..\src\Engine.Infrastructure\Engine.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="MongoRepository\AllEnginesResponse.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

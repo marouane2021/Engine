@@ -1,0 +1,170 @@
+{
+  "consumer": {
+    "name": "EngineEpConsumerConsumer"
+  },
+  "provider": {
+    "name": "EngineEp"
+  },
+  "interactions": [
+    {
+      "description": "A request for Engines",
+      "providerState": "Get Engines NotFound",
+      "request": {
+        "method": "get",
+        "path": "/Moteur/GetAll/Engines"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "A request for Engines",
+      "providerState": "Get  All Engines success",
+      "request": {
+        "method": "get",
+        "path": "/Moteur/GetAll/Engines"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "id": {
+            },
+            "code": 16,
+            "name": "Beaute",
+            "isEnable": true,
+            "searchText": "string",
+            "scopes": [
+              {
+                "scopeId": 2,
+                "order": 0,
+                "name": "string",
+                "isEnable": true
+              }
+            ],
+            "inputFields": [
+              {
+                "inputId": 3,
+                "isEnable": true,
+                "isMandatory": true,
+                "label": "string",
+                "order": 0,
+                "type": "string",
+                "parameters": [
+                  {
+                    "scopeParameterId": 4,
+                    "externalCodeId": 0,
+                    "order": 0,
+                    "label": "string"
+                  }
+                ]
+              }
+            ],
+            "backGroundImages": [
+              {
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true,
+                "order": 0,
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string"
+              }
+            ],
+            "logo": [
+              {
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string",
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true
+              }
+            ],
+            "marketingText": [
+              {
+                "isEnable": true,
+                "text": "string"
+              }
+            ]
+          },
+          {
+            "id": {
+            },
+            "code": 17,
+            "name": "Filme",
+            "isEnable": true,
+            "searchText": "string",
+            "scopes": [
+              {
+                "scopeId": 3,
+                "order": 0,
+                "name": "string",
+                "isEnable": true
+              }
+            ],
+            "inputFields": [
+              {
+                "inputId": 1,
+                "isEnable": true,
+                "isMandatory": true,
+                "label": "string",
+                "order": 0,
+                "type": "string",
+                "parameters": [
+                  {
+                    "scopeParameterId": 2,
+                    "externalCodeId": 0,
+                    "order": 0,
+                    "label": "string"
+                  }
+                ]
+              }
+            ],
+            "backGroundImages": [
+              {
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true,
+                "order": 0,
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string"
+              }
+            ],
+            "logo": [
+              {
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string",
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true
+              }
+            ],
+            "marketingText": [
+              {
+                "isEnable": true,
+                "text": "string"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "1.0.0"
+    }
+  }
+}

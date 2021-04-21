@@ -4,11 +4,9 @@ using EngineApi.Infrastructure.Configurations;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Engine.Infrastructure.MongoRepository
@@ -30,8 +28,7 @@ namespace Engine.Infrastructure.MongoRepository
         {
             _collection = _database.GetCollection<MyEngine>(options.Value.Collection);
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CompetingOfferChangesMongoDBRepository"/> class.
+       
         /// </summary>
         /// <param name="logger">The logger.</param>
         /// <param name="options">options.</param>
@@ -86,9 +83,6 @@ namespace Engine.Infrastructure.MongoRepository
             
             return await _collection.Find(_ => true).ToListAsync();
 
-
-
-
     }
         public async Task<bool> UpdateEngine(int code, MyEngine engine)
         {
@@ -103,8 +97,6 @@ namespace Engine.Infrastructure.MongoRepository
                                             .Set(s => s.Code, engine.Code)
                 ;
             var result = await _collection.UpdateOneAsync(model => model.Code == code, update);
-            //var filter = Builders<Domain.Models.Engine>.Filter.Eq("Code", engine.Code);
-            //var result = await _collection.ReplaceOneAsync(filter, engine);
             return true;
 
         }

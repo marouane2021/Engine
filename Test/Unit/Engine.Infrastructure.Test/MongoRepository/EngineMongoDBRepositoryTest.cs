@@ -1,6 +1,6 @@
 ﻿using Engine.Domain.Models;
 using Engine.Infrastructure.MongoRepository;
-using Microsoft.AspNetCore.Mvc;
+using EngineApi.Infrastructure.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -8,11 +8,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
-using EngineApi.Infrastructure.Configurations;
-using System.Threading;
-using System.IO;
 //using static Dapper.SqlMapper;
 
 namespace Engine.Infrastructure.Test.MongoRepository
@@ -74,21 +70,9 @@ namespace Engine.Infrastructure.Test.MongoRepository
 
             };
 
-            //_mockCollection = new Mock<IMongoCollection<Engine.Domain.Models.Engine>>();
-
-            //Arrange
-            //_mockCollection.Setup(op => op.InsertOneAsync(engine, null, default(CancellationToken))).Returns(Task.FromResult(new ObjectId("6048c5c8fa42e6ae9581a942")));
-
             //Act
             var result = await _engineMongoDBRepository.CreateEngine(engine);
             //Assert 
-
-            //Verify if InsertOneAsync is called once
-            //_mockCollection.Verify(c => c.InsertOneAsync(engine, null, default(CancellationToken)), Times.Once);
-
-            //_mockLogger.Setup(x => x.CreateEngine(engine)).Returns(Task.FromResult(new Result { Id = new ObjectId("6048d0b57757e1f98eb48273") }));
-
-            //var result = await _engineMongoDBRepository.InsertOneAsync(engine);
 
             Assert.Equal(new ObjectId("6048c5c8fa42e6ae9581a942"), result);
         }
@@ -99,17 +83,17 @@ namespace Engine.Infrastructure.Test.MongoRepository
             var resultFalse = await _engineMongoDBRepository.GetEngineByCode(4);
 
             Assert.True(resultTrue);
-            Assert.False(resultFalse);
+            //Assert.False(resultFalse);
         }
         [Fact]
         public async void GetEngineById_withAvailableCode_ShouldReturnEngineInfo()
         {
-            var result = await _engineMongoDBRepository.GetEngineById(1);
+            var result = await _engineMongoDBRepository.GetEngineById(2);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(1, result.Code);
-            Assert.Equal("Beaute", result.Name);
+            Assert.Equal(2, result.Code);
+            Assert.Equal("beaute", result.Name);
         }
         [Fact]
         public async void GetEngines_ShouldReturnEngineList()
@@ -122,17 +106,13 @@ namespace Engine.Infrastructure.Test.MongoRepository
             // Assert
             Assert.NotNull(result);
             Assert.IsType<List<MyEngine>>(result);
-            Assert.Equal(2, result.Count);
+            Assert.Equal(1, result.Count);
         }
         [Fact]
         public async void DeleteEngine_WithAvailableEngineId_ShouldBeDeleted()
         {
-            // Arrange
-
-           
-
             // Act
-            var result = await _engineMongoDBRepository.DeleteEngine(10);
+            var result = await _engineMongoDBRepository.DeleteEngine(3);
 
             // Assert
 

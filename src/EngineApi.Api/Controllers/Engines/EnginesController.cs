@@ -1,20 +1,11 @@
 ﻿using Engine.Domain.Abstractions.Dtos.Handlers;
-using Engine.Domain.Handlers;
 using Engine.Domain.Models;
 using EngineApi.Api.Bootstrap;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
-using MongoDB.Bson.IO;
-using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EngineApi.Api.Controllers.Engines
@@ -50,19 +41,19 @@ namespace EngineApi.Api.Controllers.Engines
         /// <returns></returns>
         [HttpPost("CreateEngine")]
         [SwaggerResponse(StatusCodes.Status200OK, description: "WELL DONE")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+
+        [SwaggerResponse(StatusCodes.Status405MethodNotAllowed, description: "WELL DONE")]
+
         public async Task<IActionResult> CreateEngineAsync([FromBody] MyEngine engine)
         {
             try
             {
-                var res = await _handlerEngine.CreateEngine(engine);
-               
-                
-                    if (res.Errors != null && res.Errors.Count != 0)
-                        return StatusCode(StatusCodes.Status200OK, res.Errors);
+                var res = await _handlerEngine.CreateEngine(engine);               
+                if (res.Errors != null && res.Errors.Count != 0)
+                        return StatusCode(StatusCodes.Status405MethodNotAllowed, res.Errors);
                    
                 
-                return StatusCode(StatusCodes.Status201Created, res.Id);
+                return StatusCode(StatusCodes.Status200OK, res.Id);
             }
             catch (Exception e)
             {
@@ -96,11 +87,8 @@ namespace EngineApi.Api.Controllers.Engines
                 return NotFound();
             }
 
-            //_metrics.RegisterRequest();
-
             return Ok(result);
-
-            //erturn Content(Newtonsoft.Json.JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings()), "application/json");
+         
         }
         [HttpPut("UpdateEngine/{code}")]
         [SwaggerResponse(StatusCodes.Status200OK, description: "WELL DONE")]

@@ -2,13 +2,10 @@
 using Engine.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Engine.Domain.Handlers
 {
-    /// <summary>
-    /// 
     /// </summary>
     /// <seealso cref="IEngineHandler" />
     public class EngineHandler : IEngineHandler
@@ -43,13 +40,18 @@ namespace Engine.Domain.Handlers
                 result.Errors = errorList;
                 return result;
             }
-            result.Id = await _engineRepository.CreateEngine(engine);
+            result.Id= await _engineRepository.CreateEngine(engine);
 
             return result;
         }
 
         private static List<string> ValidateFields(MyEngine engine, List<string> errorList)
         {
+            if(engine == null)
+            {
+                errorList.Add($"Engine is null");
+
+            }
             if (engine.Code <= 0)
             {
                 errorList.Add($"Code not accepted, try again ");
@@ -85,9 +87,6 @@ namespace Engine.Domain.Handlers
 
             return engines;
         }
-
-
-
         public async Task<List<MyEngine>> GetEngines()
         {
             return await _engineRepository.GetEngines();
