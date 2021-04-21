@@ -24,16 +24,6 @@ namespace Cds.Engine.Tests.ProviderPact
         public EngineProviderTests(ITestOutputHelper output, EngineProvider provider) : base(output, provider)
         {
 
-            ProviderStates.Add("Get Engine success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Get Engine NotFound", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Get  All Engines success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-            //ProviderStates.Add("Create Engine success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-            //ProviderStates.Add("Create Engine Method Not Allowed", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Update Engine success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Update Engine NotFound", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Delete Engine success", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-            ProviderStates.Add("Delete Engine NotFound", async () => await MockEngineEpCallReturnSuccessAsync().ConfigureAwait(false));
-
         }
 
         [Fact]

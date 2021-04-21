@@ -7,11 +7,272 @@
   },
   "interactions": [
     {
-      "description": "A request for Engines",
-      "providerState": "Create Engine Method Not Allowed",
+      "description": "A request for Engine",
+      "providerState": "Get Engine success",
       "request": {
-        "method": "post",
-        "path": "/Moteur/CreateEngine",
+        "method": "get",
+        "path": "/Moteur/GetEngineByCode/16"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "json_class": "Pact::SomethingLike",
+          "contents": {
+            "id": {
+              "timestamp": 1617721631,
+              "machine": 7894647,
+              "pid": 13311,
+              "increment": 5403081,
+              "creationTime": "2021-04-06T15:07:11Z"
+            },
+            "code": 16,
+            "name": "Beaute",
+            "isEnable": true,
+            "searchText": "string",
+            "scopes": [
+              {
+                "scopeId": 2,
+                "order": 0,
+                "name": "string",
+                "isEnable": true
+              }
+            ],
+            "inputFields": [
+              {
+                "inputId": 3,
+                "isEnable": true,
+                "isMandatory": true,
+                "label": "string",
+                "order": 0,
+                "type": "string",
+                "parameters": [
+                  {
+                    "scopeParameterId": 4,
+                    "externalCodeId": 0,
+                    "order": 0,
+                    "label": "string"
+                  }
+                ]
+              }
+            ],
+            "backGroundImages": [
+              {
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true,
+                "order": 0,
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string"
+              }
+            ],
+            "logo": [
+              {
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string",
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true
+              }
+            ],
+            "marketingText": [
+              {
+                "isEnable": true,
+                "text": "string"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "description": "A request for Engines",
+      "providerState": "Get  All Engines success",
+      "request": {
+        "method": "get",
+        "path": "/Moteur/GetAll/Engines"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "id": {
+              "timestamp": 1617878829,
+              "machine": 15810591,
+              "pid": -14883,
+              "increment": 1192671
+            },
+            "code": 16,
+            "name": "Beaute",
+            "isEnable": true,
+            "searchText": "string",
+            "scopes": [
+              {
+                "scopeId": 2,
+                "order": 0,
+                "name": "string",
+                "isEnable": true
+              }
+            ],
+            "inputFields": [
+              {
+                "inputId": 3,
+                "isEnable": true,
+                "isMandatory": true,
+                "label": "string",
+                "order": 0,
+                "type": "string",
+                "parameters": [
+                  {
+                    "scopeParameterId": 4,
+                    "externalCodeId": 0,
+                    "order": 0,
+                    "label": "string"
+                  }
+                ]
+              }
+            ],
+            "backGroundImages": [
+              {
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true,
+                "order": 0,
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string"
+              }
+            ],
+            "logo": [
+              {
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string",
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true
+              }
+            ],
+            "marketingText": [
+              {
+                "isEnable": true,
+                "text": "string"
+              }
+            ]
+          },
+          {
+            "id": {
+              "timestamp": 1617883676,
+              "machine": 11034557,
+              "pid": 27952,
+              "increment": 7085875
+            },
+            "code": 17,
+            "name": "Filme",
+            "isEnable": true,
+            "searchText": "string",
+            "scopes": [
+              {
+                "scopeId": 3,
+                "order": 0,
+                "name": "string",
+                "isEnable": true
+              }
+            ],
+            "inputFields": [
+              {
+                "inputId": 1,
+                "isEnable": true,
+                "isMandatory": true,
+                "label": "string",
+                "order": 0,
+                "type": "string",
+                "parameters": [
+                  {
+                    "scopeParameterId": 2,
+                    "externalCodeId": 0,
+                    "order": 0,
+                    "label": "string"
+                  }
+                ]
+              }
+            ],
+            "backGroundImages": [
+              {
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true,
+                "order": 0,
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string"
+              }
+            ],
+            "logo": [
+              {
+                "urlImageDesktop": "string",
+                "urlLinkDesktop": "string",
+                "urlImageMobile": "string",
+                "urlLinkMobile": "string",
+                "alt": "string",
+                "isEnable": true,
+                "openInNewTab": true
+              }
+            ],
+            "marketingText": [
+              {
+                "isEnable": true,
+                "text": "string"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "description": "A request for Engines",
+      "providerState": "elete Engine success",
+      "request": {
+        "method": "delete",
+        "path": "/Moteur/DeleteEngine/16"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "A request for Engines",
+      "providerState": "Delete Engine NotFound",
+      "request": {
+        "method": "delete",
+        "path": "/Moteur/DeleteEngine/28"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "A request for Engines",
+      "providerState": "Update Engine Success",
+      "request": {
+        "method": "put",
+        "path": "/Moteur/UpdateEngine/16",
         "headers": {
           "Content-Type": "application/json; charset=utf-8"
         },
@@ -85,7 +346,245 @@
         }
       },
       "response": {
+        "status": 200,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "A request for Engines",
+      "providerState": "Create Engine Method Not Allowed",
+      "request": {
+        "method": "post",
+        "path": "/Moteur/CreateEngine",
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "code": 22,
+          "name": "Beaute",
+          "isEnable": true,
+          "searchText": "string",
+          "scopes": [
+            {
+              "scopeId": 2,
+              "order": 0,
+              "name": "string",
+              "isEnable": true
+            }
+          ],
+          "inputFields": [
+            {
+              "inputId": 3,
+              "isEnable": true,
+              "isMandatory": true,
+              "label": "string",
+              "order": 0,
+              "type": "string",
+              "parameters": [
+                {
+                  "scopeParameterId": 4,
+                  "externalCodeId": 0,
+                  "order": 0,
+                  "label": "string"
+                }
+              ]
+            }
+          ],
+          "backGroundImages": [
+            {
+              "alt": "string",
+              "isEnable": true,
+              "openInNewTab": true,
+              "order": 0,
+              "urlImageDesktop": "string",
+              "urlLinkDesktop": "string",
+              "urlImageMobile": "string",
+              "urlLinkMobile": "string"
+            }
+          ],
+          "logo": [
+            {
+              "urlImageDesktop": "string",
+              "urlLinkDesktop": "string",
+              "urlImageMobile": "string",
+              "urlLinkMobile": "string",
+              "alt": "string",
+              "isEnable": true,
+              "openInNewTab": true
+            }
+          ],
+          "marketingText": [
+            {
+              "isEnable": true,
+              "text": "string"
+            }
+          ]
+        }
+      },
+      "response": {
         "status": 405,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "A request for Engines",
+      "providerState": "Update Engine NotFound",
+      "request": {
+        "method": "put",
+        "path": "/Moteur/UpdateEngine/369",
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": {
+            "timestamp": 1617721631,
+            "machine": 7894647,
+            "pid": 13311,
+            "increment": 5403081,
+            "creationTime": "2021-04-06T15:07:11Z"
+          },
+          "code": 16,
+          "name": "Beaute",
+          "isEnable": true,
+          "searchText": "string",
+          "scopes": [
+            {
+              "scopeId": 2,
+              "order": 0,
+              "name": "string",
+              "isEnable": true
+            }
+          ],
+          "inputFields": [
+            {
+              "inputId": 3,
+              "isEnable": true,
+              "isMandatory": true,
+              "label": "string",
+              "order": 0,
+              "type": "string",
+              "parameters": [
+                {
+                  "scopeParameterId": 4,
+                  "externalCodeId": 0,
+                  "order": 0,
+                  "label": "string"
+                }
+              ]
+            }
+          ],
+          "backGroundImages": [
+            {
+              "alt": "string",
+              "isEnable": true,
+              "openInNewTab": true,
+              "order": 0,
+              "urlImageDesktop": "string",
+              "urlLinkDesktop": "string",
+              "urlImageMobile": "string",
+              "urlLinkMobile": "string"
+            }
+          ],
+          "logo": [
+            {
+              "urlImageDesktop": "string",
+              "urlLinkDesktop": "string",
+              "urlImageMobile": "string",
+              "urlLinkMobile": "string",
+              "alt": "string",
+              "isEnable": true,
+              "openInNewTab": true
+            }
+          ],
+          "marketingText": [
+            {
+              "isEnable": true,
+              "text": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "A request for Engines",
+      "providerState": "Create Engine success",
+      "request": {
+        "method": "post",
+        "path": "/Moteur/CreateEngine",
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "code": 22,
+          "name": "Beaute",
+          "isEnable": true,
+          "searchText": "string",
+          "scopes": [
+            {
+              "scopeId": 2,
+              "order": 0,
+              "name": "string",
+              "isEnable": true
+            }
+          ],
+          "inputFields": [
+            {
+              "inputId": 3,
+              "isEnable": true,
+              "isMandatory": true,
+              "label": "string",
+              "order": 0,
+              "type": "string",
+              "parameters": [
+                {
+                  "scopeParameterId": 4,
+                  "externalCodeId": 0,
+                  "order": 0,
+                  "label": "string"
+                }
+              ]
+            }
+          ],
+          "backGroundImages": [
+            {
+              "alt": "string",
+              "isEnable": true,
+              "openInNewTab": true,
+              "order": 0,
+              "urlImageDesktop": "string",
+              "urlLinkDesktop": "string",
+              "urlImageMobile": "string",
+              "urlLinkMobile": "string"
+            }
+          ],
+          "logo": [
+            {
+              "urlImageDesktop": "string",
+              "urlLinkDesktop": "string",
+              "urlImageMobile": "string",
+              "urlLinkMobile": "string",
+              "alt": "string",
+              "isEnable": true,
+              "openInNewTab": true
+            }
+          ],
+          "marketingText": [
+            {
+              "isEnable": true,
+              "text": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "status": 200,
         "headers": {
         }
       }
