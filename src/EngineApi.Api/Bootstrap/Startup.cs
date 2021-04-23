@@ -13,6 +13,8 @@ using System.Text.Json.Serialization;
 using Engine.Domain.Abstractions.Dtos.Handlers;
 using Microsoft.Net.Http.Headers;
 using Engine.Infrastructure;
+using Engine.Domain.Abstractions.Dtos.Handlers.ScopesHandlers;
+using Engine.Infrastructure.MongoRepository.ScopeRepository;
 
 namespace EngineApi.Api.Bootstrap
 {
@@ -62,6 +64,8 @@ namespace EngineApi.Api.Bootstrap
             services.AddTransient<MetricReporter>();
             services.AddTransient<IEngineHandler, EngineHandler>();
            services.AddSingleton<IEngineRepository, EngineMongoDBRepository>();
+            services.AddSingleton<IScopeRepository,ScopeMongoDBRepository>();
+            services.AddSingleton<IScopeHandler, ScopeHandler>();
             //services.AddSingleton<IEngineRepository, EPEngineRepo>();
             //Cors
             services.AddCors(options =>

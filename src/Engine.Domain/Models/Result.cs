@@ -9,5 +9,6 @@ namespace Engine.Domain.Models
     {
         public ObjectId Id { get; set; }
         public IList<string> Errors { get; set; }
+        public int ScopeId { get; set; }
     }
 }

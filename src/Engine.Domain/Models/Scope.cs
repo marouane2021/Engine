@@ -1,8 +1,16 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Text.Json.Serialization;
+
 namespace Engine.Domain.Models
 {
     public class Scope
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        [JsonIgnore]
+        public ObjectId Id { get; set; }
         public int ScopeId { get; set; }
         public int Order { get; set; }
         public string Name { get; set; }

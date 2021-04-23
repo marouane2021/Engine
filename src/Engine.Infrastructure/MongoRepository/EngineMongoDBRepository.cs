@@ -26,7 +26,7 @@ namespace Engine.Infrastructure.MongoRepository
         public EngineMongoDBRepository(ILogger<MongoClientFactory> logger, IOptions<Settings> options)
             : base(options, logger)
         {
-            _collection = _database.GetCollection<MyEngine>(options.Value.Collection);
+            _collection = _database.GetCollection<MyEngine>(options.Value.engineCollection);
         }
        
         /// </summary>
