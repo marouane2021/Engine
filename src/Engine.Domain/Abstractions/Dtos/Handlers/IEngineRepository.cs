@@ -9,7 +9,6 @@ namespace Engine.Domain.Abstractions.Dtos.Handlers
     {
         Task<ObjectId> CreateEngine(MyEngine moteur);
         Task<bool> GetEngineByCode(int code);
-        //Task<int> CreateScopes(Models.Scope scope);
         Task<MyEngine> GetEngineById(int code);
         Task<List<MyEngine>> GetEngines();
         Task<bool> UpdateEngine(int code, MyEngine engine);
