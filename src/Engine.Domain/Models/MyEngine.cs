@@ -77,6 +77,12 @@ namespace Engine.Domain.Models
         /// the marketing text for the engine
         /// </summary>
         public IList<MarketingText> MarketingText { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the modifieAt.
+        /// </summary>
+        public DateTimeOffset? ModifiedAt { get; set; }
         public static MyEngine Create()
         {
             return new MyEngine();
