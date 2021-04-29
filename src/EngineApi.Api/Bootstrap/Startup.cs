@@ -1,6 +1,11 @@
-﻿using Engine.Domain.Abstractions;
+﻿using Engine.Domain.Abstractions.Dtos.Handlers;
+using Engine.Domain.Abstractions.Dtos.Handlers.Groupes_Handlers;
+using Engine.Domain.Abstractions.Dtos.Handlers.ScopesHandlers;
 using Engine.Domain.Handlers;
+using Engine.Infrastructure;
 using Engine.Infrastructure.MongoRepository;
+using Engine.Infrastructure.MongoRepository.GroupeRepository;
+using Engine.Infrastructure.MongoRepository.ScopeRepository;
 using EngineApi.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,13 +15,6 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Engine.Domain.Abstractions.Dtos.Handlers;
-using Microsoft.Net.Http.Headers;
-using Engine.Infrastructure;
-using Engine.Domain.Abstractions.Dtos.Handlers.ScopesHandlers;
-using Engine.Infrastructure.MongoRepository.ScopeRepository;
-using Engine.Domain.Abstractions.Dtos.Handlers.Groupes_Handlers;
-using Engine.Infrastructure.MongoRepository.GroupeRepository;
 
 namespace EngineApi.Api.Bootstrap
 {
@@ -71,6 +69,7 @@ namespace EngineApi.Api.Bootstrap
             services.AddSingleton<IGroupeHandler, GroupeHandler>();
             services.AddSingleton<IGroupeRepository, GroupeMongoDBRepository>();
             //services.AddSingleton<IEngineRepository, EPEngineRepo>();
+            services.AddSingleton(_configuration.GetSection("BestOffersApi").Get<BestOfferApi>());
             //Cors
             services.AddCors(options =>
             {
@@ -83,7 +82,7 @@ namespace EngineApi.Api.Bootstrap
                       .AllowAnyMethod();
                   });
             });
-            services.AddSingleton(_configuration.GetSection("BestOffersApi").Get<BestOfferApi>());
+            
 
         }
 

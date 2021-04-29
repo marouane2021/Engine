@@ -15,5 +15,12 @@ namespace Engine.Domain.Models
         public int Order { get; set; }
         public string Name { get; set; }
         public bool IsEnable { get; set; }
+        public string Url { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the modifieAt.
+        /// </summary>
+        public DateTimeOffset? ModifiedAt { get; set; }
     }
 }
